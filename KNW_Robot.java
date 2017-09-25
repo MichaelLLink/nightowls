@@ -27,16 +27,46 @@ public class KNW_Robot {
 
     }
 
-    //void senseBarrier(float)
-    
-    //void senseGap
-    //float senseTemp
+    //senseBarrier      --not sure exactly what we want these to do, like do they handle the barrier or just sense if there is one?
+    //void senseGap     -- ""
+
+    //float senseTemp   --do we need functions for these or can we just interface with the probes directly in main?
     //float senseWind
-    //void raiseLift
-    //void lowerLift
-    //void dropArm
     //float senseWater
+
+    //void raiseLift
+    public static void raiseLift()
+    {
+
+    }
+
+    //void lowerLift
+    public static void lowerLift()
+    {
+
+    }
+
+    //void dropArm
+    public static void dropArm()
+    {
+
+    }
+
     //void releaseBeacon
-    //void outputData   --read out to terminal, I guess)
-    //void storeData    --would store to external file)
+    public static void releaseBeacon()
+    {
+
+    }
+
+    //void outputData   --read out to terminal, I guess
+    public static void outputData()
+    {
+
+    }
+
+    //void storeData    --would store to external file
+    public static void storeData()
+    {
+
+    }
 }
