@@ -16,7 +16,7 @@ public class KNW_Robot {
     public static void main()
     {
                 //create robot object
-        //RXTXRobot robot = new ArduinoUno();
+        RXTXRobot robot = new ArduinoUno();
         //robot.setPort("...");     //gotta put an actual port in here ¯\_(ツ)_/¯
         //robot.connect();
                 //check robot connection
@@ -54,6 +54,7 @@ public class KNW_Robot {
     //void move(float)  --move for specified distance
     public static void move(float distance)
     {
+        //calc ticks
         //while distance isn't reached
             //interface with motor controllers to check distanceTraveled
             //if distanceTraveled isn't equal to distance
@@ -67,6 +68,10 @@ public class KNW_Robot {
     //void turn(int)    --Left:  1, Right: 2
     public static void turn(int direction)
     {
+        //if direction is 1
+            //runEncodedMotor(robot.MOTOR1, -500, [whatever ticks it needs for 90 degrees], robot.MOTOR2, 500, [same ticks])
+        //if direction is 2
+            //runEncodedMotor(robot.MOTOR1, 500, [same ticks], robot.MOTOR2, -500, [same ticks])
 
     }
 
@@ -74,7 +79,12 @@ public class KNW_Robot {
                         //--there's a ping sensor function we can use (int getPing(int pin)) example: int distance = robot.getPing(6);
     //void senseGap     --again, obstical handling??? Does this turn for us?
                         //do we need functions for these or can we just interface with the probes directly in main?
-    //float senseTemp   --
+    //float senseTemp   --probably gonna use something like refreshAnalogPins()
+                        /* EXAMPLE
+                            robot.refreshAnalogPins();
+                            int reading = robot.getAnalogPin(3).getValue();
+                            System.out.println("The analog reading on pin 3 was: " + reading);
+                         */
     //float senseWind
     //float senseWater  --there's actually a function for that in the rxtx package (int getConductivity()) so we probably don't need this function (woot woot)
                         //NOTE: The conductivity sensor requires pins on digital pins 12 and 13, and pins on analog pins 4 and 5.
