@@ -1,4 +1,4 @@
-include rxtxrobot.*;
+include RXTXRobot.*;
 
 public class Move
 {
