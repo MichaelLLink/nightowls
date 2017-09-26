@@ -9,8 +9,8 @@ public class KNW_Robot {
 
     //NOTE: We don't have to call attach() for ping sensors BUT if something is attached to the pin we call for the sensor, we'll get an error value (-1)
 
-    //variables for probes
-    //variables for probe data
+    //variables for ports so if we change pin arrangements we don't have to change every instance
+    //sensor ports ex) int tempSensor = 3;
 
 
     public static void main()
