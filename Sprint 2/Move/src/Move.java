@@ -8,7 +8,7 @@ public class Move
     public static void main(String[] args)
     {
         robot = new ArduinoUno();
-        robot.setPort("COM3");
+        robot.setPort("COM3"); //unsure about port
         robot.connect();
 
             //motors 1 and 2 are already set up so we don't need to do that

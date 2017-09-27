@@ -8,7 +8,7 @@ public class TakeTemp
     public static void main(String[] args)
     {
         robot = new ArduinoUno();
-        robot.setPort("COM3");
+        robot.setPort("COM3"); //unsure about port
         robot.connect();
 
         int thermistorReading = getThermistorReading();
