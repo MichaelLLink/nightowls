@@ -1,13 +1,14 @@
-include RXTXRobot.*;
+import rxtxrobot.*;
 
 public class Move
 {
 
-    public static int main()
+    public static RXTXRobot robot;
+
+    public static void main(String[] args)
     {
-            //set up arduino
-        RXTXRobot robot = new ArduinoUno();
-        robot.setPort(/dev/tty.usbmodem411); //mac port???
+        robot = new ArduinoUno();
+        robot.setPort("COM3");
         robot.connect();
 
             //motors 1 and 2 are already set up so we don't need to do that

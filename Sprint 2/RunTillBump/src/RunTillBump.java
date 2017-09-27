@@ -1,4 +1,4 @@
-import RXTXRobot.*;
+import rxtxrobot.*;
 
 public class RunTillBump {
 
