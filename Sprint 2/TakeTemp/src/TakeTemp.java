@@ -8,29 +8,24 @@ public class TakeTemp
     public static void main(String[] args)
     {
         robot = new ArduinoUno();
-        robot.setPort("/dev/tty.usbmodem411"); //unsure about port
+        robot.setPort("/dev/tty.usbmodem1411"); //unsure about port
         robot.connect();
 
-        int thermistorReading = getThermistorReading();
+        double thermistorReading = getThermistorReading();
 
         System.out.println("The probe read the value: " + thermistorReading);
-        System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
+        //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
-        /*
-        int tempK = 0;
-        int tempC = 0;
-        int interceptK =
-        int slopeK =
-        int interceptC =
-        int slopeC =
 
-        tempK = (thermistorReading - interceptK)/slopeK;
-        tempC = (thermistorReading - interceptC)/slopeC;
+        double temp = 0;
+        double intercept = 687.9718646;
+        double slope = -6.58594486;
 
-        System.out.println("The temperature in CELSIUS is: " + tempC);
-        System.out.println("The temperature in KELVIN is: " + tempK);
+        temp = (thermistorReading - intercept)/slope;
 
-        */
+        System.out.println("The temperature is: " + temp + " celsius");
+
+
 
         robot.close();
     }

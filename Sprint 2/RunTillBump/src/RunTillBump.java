@@ -15,6 +15,7 @@ public class RunTillBump {
 
             //run motor
         robot.runMotor(RXTXRobot.MOTOR1, 100, RXTXRobot.MOTOR2, 100, 0);
+        //robot.runEncodedMotor(robot.MOTOR1, 100, 600, robot.MOTOR2, 100, 600);
 
             //set control
         robot.refreshDigitalPins();
@@ -34,7 +35,7 @@ public class RunTillBump {
             {
                     //stop motor
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                //runEncodedMotor(robot.MOTOR1, 500, 0, robot.MOTOR2, 500, 0);  //if we can't call an encoded motor directly
+                //runEncodedMotor(robot.MOTOR1, 0, , robot.MOTOR2, 0, 0);  //if we can't call an encoded motor directly
             }
 
         }
