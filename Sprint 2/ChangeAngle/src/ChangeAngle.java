@@ -1,5 +1,5 @@
 import rxtxrobot.*;
-//import java.util.Scanner;
+import java.util.Scanner;
 
 public class ChangeAngle
 {
@@ -8,11 +8,9 @@ public class ChangeAngle
 
     public static void main(String[] args)
     {
-        /*      IF WE'RE SUPPOSED TO TAKE THE ANGLE DURING RUNTIME
         Scanner input = new Scanner(System.in);
         int angle = 0;
         angle = input.nextInt();
-        */
 
             //set up robot
         robot = new ArduinoUno();
@@ -23,8 +21,8 @@ public class ChangeAngle
         robot.attachServo(RXTXRobot.SERVO1, 9);
 
             //move servo
-        //robot.moveServo(RXTXRobot.SERVO1, angle);
-        robot.moveServo(RXTXRobot.SERVO1, 90);
+        robot.moveServo(RXTXRobot.SERVO1, angle);
+        //robot.moveServo(RXTXRobot.SERVO1, 90);
 
             //reset servo
         robot.moveServo(RXTXRobot.SERVO1, 0);
