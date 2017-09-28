@@ -2,29 +2,39 @@ import rxtxrobot.*;
 
 public class RunTillBump {
 
-    public static int main()
+    public static RXTXRobot robot;
+
+    public static void main(String[] args)
     {
         boolean bumpTriggered = false;
 
-
-        //set up arduino
-        RXTXRobot robot = new ArduinoUno();
-        robot.setPort(/dev/tty.usbmodem411); //mac port???
+            //set up arduino
+        robot = new ArduinoUno();
+        robot.setPort("COM3"); //unsure about port
         robot.connect();
+
+            //run motor
+        robot.runMotor(RXTXRobot.MOTOR1, 100, RXTXRobot.MOTOR2, 100, 0);
+
+            //set control
+        robot.refreshDigitalPins();
+        int firstReading = robot.getDigitalPin(11).getValue();
 
         while (!bumpTriggered)
         {
-            //check bump sensor, which would be in a DIGITAL port
-            robot.refreshDigitalPins();
-            int reading = robot.getDigitalPin(11).getValue(); //IDK what value signifies not pushed
+                robot.refreshDigitalPins();
+                int reading = robot.getDigitalPin(11).getValue(); //IDK what value signifies not pushed
 
-            //add if statement to set bumpTriggered based on reading
+                //add if statement to set bumpTriggered based on reading
+                if(reading != firstReading) {
+                    bumpTriggered = true;
+                }
 
-            if(!bumpTriggered)
+            if(bumpTriggered)
             {
-                //run motor
-                //runEncodedMotor(robot.MOTOR1, 500, 0, robot.MOTOR2, 500, 0);  //if you can't call an encoded motor directly, we gotta figure out how to use this
-                runMotor(robot.MOTOR1, 500, 0, robot.MOTOR2, 500, 0);
+                    //stop motor
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                //runEncodedMotor(robot.MOTOR1, 500, 0, robot.MOTOR2, 500, 0);  //if we can't call an encoded motor directly
             }
 
         }
