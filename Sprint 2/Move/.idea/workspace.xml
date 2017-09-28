@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4115f23c-6568-4b04-b0ff-6587795bdd59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SenseDistance/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SenseDistance/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SenseDistance/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SenseDistance/SenseDistance.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SenseDistance/src/SenseDistance.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Sprint2/src/Sprint2.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChangeAngle/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../ChangeAngle/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChangeAngle/src/ChangeAngle.java" afterPath="$PROJECT_DIR$/../ChangeAngle/src/ChangeAngle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../RunTillBump/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../RunTillBump/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SenseDistance/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../SenseDistance/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Sprint2/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Sprint2/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Sprint2/Sprint2.iml" afterPath="$PROJECT_DIR$/../Sprint2/Sprint2.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TakeTemp/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../TakeTemp/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -26,8 +24,8 @@
       <file leaf-file-name="Move.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Move.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="25" lean-forward="true" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+            <state relative-caret-position="165">
+              <caret line="11" column="11" lean-forward="false" selection-start-line="9" selection-start-column="8" selection-end-line="11" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -221,6 +219,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="141" width="1260" height="691" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -234,7 +233,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -291,8 +290,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Move.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="25" lean-forward="true" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+        <state relative-caret-position="165">
+          <caret line="11" column="11" lean-forward="false" selection-start-line="9" selection-start-column="8" selection-end-line="11" selection-end-column="24" />
           <folding />
         </state>
       </provider>
