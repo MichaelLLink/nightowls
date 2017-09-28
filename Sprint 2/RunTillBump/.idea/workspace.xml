@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3367e0e-6c38-419a-8054-f197628bb0f9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Sprint2/src/Sprint2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChangeAngle/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../ChangeAngle/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Move/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Move/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SenseDistance/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../SenseDistance/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Sprint2/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Sprint2/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Sprint2/Sprint2.iml" afterPath="$PROJECT_DIR$/../Sprint2/Sprint2.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TakeTemp/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../TakeTemp/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TakeTemp/src/TakeTemp.java" afterPath="$PROJECT_DIR$/../TakeTemp/src/TakeTemp.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

@@ -15,8 +15,8 @@
       <file leaf-file-name="TakeTemp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TakeTemp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+            <state relative-caret-position="210">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -45,9 +45,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="28" />
+    <option name="x" value="188" />
     <option name="y" value="23" />
-    <option name="width" value="1225" />
+    <option name="width" value="916" />
     <option name="height" value="700" />
   </component>
   <component name="ProjectView">
@@ -201,7 +201,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="28" y="23" width="1225" height="700" extended-state="0" />
+    <frame x="188" y="23" width="916" height="700" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -257,8 +257,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TakeTemp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+        <state relative-caret-position="210">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
