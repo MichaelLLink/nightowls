@@ -20,7 +20,7 @@ public class Move
         int ticks = 11 * distance;
 
             //move 3 feet
-        runEncodedMotor(robot.MOTOR1, 500, ticks, robot.MOTOR2, 500, ticks);
+        robot.runEncodedMotor(RXTXRobot.MOTOR1, 500, ticks, RXTXRobot.MOTOR2, 500, ticks);
 
             //close robot
         robot.close();
