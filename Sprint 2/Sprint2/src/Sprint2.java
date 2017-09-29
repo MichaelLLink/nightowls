@@ -28,17 +28,16 @@ public class Sprint2 {
             //set pin and other static variables
         pingPin = 7;    //digital pin
         bumpPin = 11;   //digital pin
-        tempPin = 0;
+        tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
-        armPin = 9;
+        armPin = 9;     //digital
 
             //calibrations
         exposedSlope = -6.58594486;
         exposedIntercept = 687.9718646;
         shieldedSlope = 0;
         shieldedIntercept = 0;
-
 
         speed = 100;
 
@@ -79,10 +78,10 @@ public class Sprint2 {
                 case 5:
                     takeTemp();
                     break;
-                //case 6:
+                case 6:
                     //getConductivity();
-                    //getWindSpeed();
-                    //break;
+                    getWindSpeed();
+                    break;
                 case 0:
                     break;
                 default:
@@ -108,7 +107,7 @@ public class Sprint2 {
         System.out.println("3 - Bumper Test");
         System.out.println("4 - Ping Test");
         System.out.println("5 - Temperature Test");
-        //System.out.println("6 - Conductivity/Anemometer Test");
+        System.out.println("6 - Anemometer Test");
         System.out.println("0 - Exit");
     }
 
@@ -228,6 +227,8 @@ public class Sprint2 {
 
         System.out.println("The probe read the value: " + anemometerReading);
         System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
+
+        
 
     }
 
