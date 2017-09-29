@@ -8,10 +8,15 @@ public class Sprint2 {
     public static int pingPin;
     public static int bumpPin;
     public static int tempPin;
-    //public static int shieldedWindPin;
-    //public static int unshieldedWindPin;
+    public static int windPin;
     //public static int conductivityPin;
     public static int armPin;
+
+        //calibrations
+    public static double exposedSlope;
+    public static double exposedIntercept;
+    public static double shieldedSlope;
+    public static double shieldedIntercept;
 
     public static void main(String[] args)
     {
@@ -24,10 +29,16 @@ public class Sprint2 {
         pingPin = 7;    //digital pin
         bumpPin = 11;   //digital pin
         tempPin = 0;
-        //shieldedWindPin = ;
-        //unshieldedWindPin= ;
-        //conductivityPin = ;
+        windPin= 1;  //analog
+        //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
         armPin = 9;
+
+            //calibrations
+        exposedSlope = -6.58594486;
+        exposedIntercept = 687.9718646;
+        shieldedSlope = 0;
+        shieldedIntercept = 0;
+
 
         speed = 100;
 
@@ -165,7 +176,7 @@ public class Sprint2 {
         robot.refreshDigitalPins();
         int distance = robot.getPing(pingPin); //remember to check pin
 
-        //read out distance
+            //read out distance
         System.out.println("Distance: " + distance + "cm");
     }
 
@@ -177,10 +188,8 @@ public class Sprint2 {
         //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
         double temp = 0;
-        double intercept = 687.9718646;
-        double slope = -6.58594486;
 
-        temp = (thermistorReading - intercept)/slope;
+        temp = (thermistorReading - exposedIntercept)/exposedSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
     }
@@ -205,11 +214,36 @@ public class Sprint2 {
     {
 
     }
-
+    */
     public static void getWindSpeed()
     {
+        double anemometerReading = getAnemometerReading();
+        double thermistorReading = getThermistorReading();
+
+        double unshieldedTemp = 0;
+        double shieldedTemp = 0;
+
+        unshieldedTemp = (thermistorReading - exposedIntercept)/exposedSlope;
+        shieldedTemp = (anemometerReading - shieldedIntercept)/shieldedSlope;
+
+        System.out.println("The probe read the value: " + anemometerReading);
+        System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
 
     }
-     */
+
+    public static int getAnemometerReading()
+    {
+        int sum = 0;
+        int readingCount = 10;
+
+        for(int i = 0; i < readingCount; i++)
+        {
+            robot.refreshAnalogPins();
+            int reading = robot.getAnalogPin(windPin).getValue();
+            sum += reading;
+        }
+
+        return sum / readingCount;
+    }
 
 }
