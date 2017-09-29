@@ -225,10 +225,15 @@ public class Sprint2 {
         unshieldedTemp = (thermistorReading - exposedIntercept)/exposedSlope;
         shieldedTemp = (anemometerReading - shieldedIntercept)/shieldedSlope;
 
-        System.out.println("The probe read the value: " + anemometerReading);
+            //not entirely sure what we need here
+        System.out.println("The shielded thermistor read the value: " + anemometerReading);
         System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
 
-        
+        System.out.println("The exposed read the value: " + thermistorReading);
+        System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
+
+        System.out.println("The difference is: " + (anemometerReading - thermistorReading));
+        System.out.println("In temp: " + (shieldedTemp - unshieldedTemp));
 
     }
 
