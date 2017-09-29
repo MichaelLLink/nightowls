@@ -8,7 +8,8 @@ public class Sprint2 {
     public static int pingPin;
     public static int bumpPin;
     public static int tempPin;
-    //public static int windPin;
+    //public static int shieldedWindPin;
+    //public static int unshieldedWindPin;
     //public static int conductivityPin;
     public static int armPin;
 
@@ -20,10 +21,11 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        pingPin = 7;
-        bumpPin = 11;
+        pingPin = 7;    //digital pin
+        bumpPin = 11;   //digital pin
         tempPin = 0;
-        //windPin = ;
+        //shieldedWindPin = ;
+        //unshieldedWindPin= ;
         //conductivityPin = ;
         armPin = 9;
 
