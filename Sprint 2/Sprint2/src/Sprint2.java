@@ -27,7 +27,7 @@ public class Sprint2 {
 
             //set pin and other static variables
         pingPin = 7;    //digital pin
-        bumpPin = 11;   //digital pin
+        bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
@@ -143,27 +143,28 @@ public class Sprint2 {
     {
         boolean bumpTriggered = false;
 
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 0);
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 0);
         //robot.runEncodedMotor(robot.MOTOR1, speed, 600, robot.MOTOR2, speed, 600);
 
         //set control
-        robot.refreshDigitalPins();
-        int firstReading = robot.getDigitalPin(bumpPin).getValue();
+        robot.refreshAnalogPins();
+        int firstReading = robot.getAnalogPin(bumpPin).getValue();
 
         while (!bumpTriggered)
         {
-            robot.refreshDigitalPins();
-            int reading = robot.getDigitalPin(bumpPin).getValue(); //IDK what value signifies not pushed
+            robot.refreshAnalogPins();
+            int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
 
             //add if statement to set bumpTriggered based on reading
             if(reading != firstReading) {
                 bumpTriggered = true;
+                System.out.println("bump triggered");
             }
 
             if(bumpTriggered)
             {
                 //stop motor
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                //robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
                 //runEncodedMotor(robot.MOTOR1, 0, , robot.MOTOR2, 0, 0);  //if we can't call an encoded motor directly
             }
 
@@ -219,13 +220,13 @@ public class Sprint2 {
         double anemometerReading = getAnemometerReading();
         double thermistorReading = getThermistorReading();
 
-        double windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
+        double windSpeed = ((thermistorReading-anemometerReading)-windIntercept)/windSlope;
 
             //not entirely sure what we need here
-        //System.out.println("The shielded thermistor read the value: " + anemometerReading);
+        System.out.println("The shielded thermistor read the value: " + anemometerReading);
         //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
 
-        //System.out.println("The exposed thermistor read the value: " + thermistorReading);
+        System.out.println("The exposed thermistor read the value: " + thermistorReading);
         //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
         System.out.println("The wind speed is: " + windSpeed + "m/s");
