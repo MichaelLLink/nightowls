@@ -33,6 +33,9 @@ public class Sprint2 {
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
         armPin = 9;     //digital
 
+        robot.attachMotor(RXTXRobot.MOTOR1,5);
+        robot.attachMotor(RXTXRobot.MOTOR2,6);
+
             //calibrations
         exposedSlope = -6.58594486;
         exposedIntercept = 687.9718646;
@@ -121,6 +124,7 @@ public class Sprint2 {
 
         //move 3 feet
         robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, speed, ticks);
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 5000);
     }
 
     public static void changeAngle()
@@ -143,12 +147,8 @@ public class Sprint2 {
     {
         boolean bumpTriggered = false;
 
-        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
         //robot.runEncodedMotor(robot.MOTOR1, speed, 600, robot.MOTOR2, speed, 600);
-
-        //set control
-        robot.refreshAnalogPins();
-        int firstReading = robot.getAnalogPin(bumpPin).getValue();
 
         while (!bumpTriggered)
         {
@@ -156,15 +156,16 @@ public class Sprint2 {
             int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
 
             //add if statement to set bumpTriggered based on reading
-            if(reading != firstReading) {
+            if(reading == 0) {
                 bumpTriggered = true;
+                System.out.println(reading);
                 System.out.println("bump triggered");
             }
 
             if(bumpTriggered)
             {
                 //stop motor
-                //robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
                 //runEncodedMotor(robot.MOTOR1, 0, , robot.MOTOR2, 0, 0);  //if we can't call an encoded motor directly
             }
 
