@@ -42,7 +42,7 @@ public class Sprint2 {
         windSlope = -15.595;
         windIntercept = 448.26;
 
-        speed = 100;
+        speed = 200;
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
@@ -120,10 +120,27 @@ public class Sprint2 {
         int distance = 3;
 
         //set ticks (11 being our ticks-per-inches ratio)
-        int ticks = 11 * distance;
+        int ticks = 110 * distance;
 
         //move 3 feet
-        robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, speed, ticks);
+        //robot.runEncodedMotor(RXTXRobot.MOTOR2, -speed, ticks, RXTXRobot.MOTOR1, speed, ticks);
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+        Scanner input = new Scanner(System.in);;
+        int in = 1;
+
+        robot.runMotor(RXTXRobot.MOTOR1, 175, RXTXRobot.MOTOR2, -500, 7105);
+
+        /*
+        while(in != 0)
+        {
+            in = input.nextInt();
+            if(in == 0)
+            {
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+            }
+        }
+        */
+        //robot.runEncodedMotor();
         //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 5000);
     }
 
@@ -148,7 +165,6 @@ public class Sprint2 {
         boolean bumpTriggered = false;
 
         robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
-        //robot.runEncodedMotor(robot.MOTOR1, speed, 600, robot.MOTOR2, speed, 600);
 
         while (!bumpTriggered)
         {
@@ -166,7 +182,6 @@ public class Sprint2 {
             {
                 //stop motor
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                //runEncodedMotor(robot.MOTOR1, 0, , robot.MOTOR2, 0, 0);  //if we can't call an encoded motor directly
             }
 
         }
