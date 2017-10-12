@@ -128,7 +128,7 @@ public class Sprint2 {
         Scanner input = new Scanner(System.in);;
         int in = 1;
 
-        robot.runMotor(RXTXRobot.MOTOR1, 165, RXTXRobot.MOTOR2, -500, 7700);
+        robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, -500, 8000);
 
         /*
         while(in != 0)
