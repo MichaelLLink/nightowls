@@ -14,7 +14,7 @@ public class ChangeAngle
 
             //set up robot
         robot = new ArduinoUno();
-        robot.setPort("COM3"); //unsure about port
+        robot.setPort("/dev/tty.Bluetooth-Incoming-Port"); //unsure about port
         robot.connect();
 
             //set up servo motors
