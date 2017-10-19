@@ -1,6 +1,7 @@
 import rxtxrobot.*;
 
 import java.util.Scanner;
+import java.lang.String;
 
 public class Sprint_3 {
 
@@ -38,13 +39,14 @@ public class Sprint_3 {
             //set pin and other static variables
         pingFrontPin = 8;      //digital pin
         pingRightPin = 7;    //digital pin
+        //pingLeftPin = ;   //digital
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
         dumpPin = 9;     //digital
         //boomPin = ;
         //dumpPin = ;
-        //gyroscopePin = ;  //Analog: [two pins??]
+        //gyroscopePin = ;  //Analog: [two pins??] might not be using this sooooo
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
         speed = 500;
@@ -94,7 +96,7 @@ public class Sprint_3 {
         moveTillSense();    //move out of the starting box
         turn(left);    //turn left
         moveTillSense();    //move till barrier
-        ascend();           //move up ramp
+        move(3);           //move up ramp
         raiseBoom();        //raise boom
         //check that boom was raised
         takeTemp();         //take temp
@@ -110,37 +112,71 @@ public class Sprint_3 {
         lowerBoom();        //lower boom
         //check that boom has been lowered
         turn(right);    //turn into the track
-        descend();          //move down ramp
+        move(3);          //move down ramp
         senseGap(right);    //move till there's a gap to the right
         turn(right);    //turn to the right
-        //move till we're where we need to be for the bridge
-        ascend();           //go up ramp to bridge
-        move(right);    //move across the bridge
-        descend();          //go down ramp on other side of the bridge
-        moveTillSense();    //only works if the playing field is bounded
-        turn(left);    //turn left
-        runTillBump();      //run into the soil container
-        lowerArm();         //drop conductivity probe into soil
-        takeConductivity();     //take conductivity
-        if(conductivity == 0)   //make sure conductivity was taken
-        {
-            takeConductivity();
-        }
-        if(conductivity == yesWater)
-        {
-            deployBeacon();
-            //check that beacon was deployed
-        }
-        raiseArm();         //raise conductivity probe
-        //check that the probe has been raised
+            //move till we're where we need to be for the bridge
+        move(4);
+        turn(left);
+        runTillBump();
+        move(-1);
+        turn(right);
+        runTillBump();
+        move(-1);//line up with bridge
+        turn(right);
 
-        output(); //if needed, rn it'll just display to screen
+        //PAUSE TO NOT RUN OFF THE EDGE AND BREAK THE ROBOT
+        System.out.println("Are we lined up? Y/N ");
+        String in;
+        in = input.next();
+        if(in == "n")
+        {
+            while(in != "e" || in != "y")
+            {
+                System.out.println("How about now? Y/N/E");
+                in = input.next();
+            }
+        }
+        if(in == "y") {
+            move(2);           //go up ramp to bridge
+            move(3);    //move across the bridge
+            move(2);          //go down ramp on other side of the bridge
+            moveTillSense();    //only works if the playing field is bounded
+            turn(left);    //turn left
+            runTillBump();      //run into the soil container
+            lowerArm();         //drop conductivity probe into soil
+            takeConductivity();     //take conductivity
+            if (conductivity == 0)   //make sure conductivity was taken
+            {
+                takeConductivity();
+            }
+            if (conductivity == yesWater) {
+                deployBeacon();
+                //check that beacon was deployed
+            }
+            raiseArm();         //raise conductivity probe
+            //check that the probe has been raised
 
-        robot.close();
+            output(); //if needed, rn it'll just display to screen
+
+            robot.close();
+        }
+        else robot.close();
     }
 
     public static void move(int distance)
     {
+        boolean reverse  = false;
+        int speeder = 0;
+
+        if(distance < 0)
+        {
+            reverse = true;
+            speeder = -speed;
+        }
+        else
+            speeder = speed;
+
         int ticks = distance*feetToTicks;
         int moved = 0;
         int space = 0;
@@ -148,7 +184,7 @@ public class Sprint_3 {
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, 0);
 
         while(moved != ticks)
         {
@@ -162,7 +198,7 @@ public class Sprint_3 {
 
             if(space > 10)
             {
-                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+                robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, 0);
             }
 
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
@@ -182,18 +218,6 @@ public class Sprint_3 {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
             robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 2000);
         }
-    }
-
-//FOR THE RAMP (AND POSSIBLY BRIDGE), taking into account a gyroscope OR an alternative approach
-    public static void ascend()
-    {
-        //loop checking for frontward barrier
-
-    }
-
-    public static void descend()
-    {
-
     }
 
     public static void raiseBoom()
