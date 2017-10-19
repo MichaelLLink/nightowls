@@ -44,8 +44,8 @@ public class Sprint_3 {
         tempPin = 0;    //analog
         windPin = 1;  //analog
         dumpPin = 9;     //digital
-        //boomPin = ;
-        //dumpPin = ;
+        //boomPin = ;   //digital
+        //dumpPin = ;   //digital
         //gyroscopePin = ;  //Analog: [two pins??] might not be using this sooooo
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
