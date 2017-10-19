@@ -13,8 +13,8 @@ public class Sprint2 {
     public static int armPin;
 
         //calibrations
-    public static double exposedSlope;
-    public static double exposedIntercept;
+    public static double tempSlope;
+    public static double tempIntercept;
     public static double windSlope;
     public static double windIntercept;
 
@@ -26,7 +26,7 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        pingPin = 7;    //digital pin
+        //pingPin = 7;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
@@ -37,10 +37,10 @@ public class Sprint2 {
         robot.attachMotor(RXTXRobot.MOTOR2,6);
 
             //calibrations
-        exposedSlope = -6.58594486;
-        exposedIntercept = 687.9718646;
-        windSlope = -15.595;
-        windIntercept = 448.26;
+        tempSlope = -6.58594486;
+        tempIntercept = 687.9718646;
+        windSlope = 5.2013;
+        windIntercept = 40.023;
 
         speed = 200;
 
@@ -205,7 +205,7 @@ public class Sprint2 {
 
         double temp = 0;
 
-        temp = (thermistorReading - exposedIntercept)/exposedSlope;
+        temp = (thermistorReading - tempIntercept)/tempSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
     }
@@ -236,13 +236,13 @@ public class Sprint2 {
         double anemometerReading = getAnemometerReading();
         double thermistorReading = getThermistorReading();
 
-        double windSpeed = ((thermistorReading-anemometerReading)-windIntercept)/windSlope;
+        double windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
 
             //not entirely sure what we need here
-        System.out.println("The shielded thermistor read the value: " + anemometerReading);
+        System.out.println("The shielded thermistor/temp read the value: " + thermistorReading);
         //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
 
-        System.out.println("The exposed thermistor read the value: " + thermistorReading);
+        System.out.println("The exposed thermistor/wind read the value: " + anemometerReading);
         //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
         System.out.println("The wind speed is: " + windSpeed + "m/s");

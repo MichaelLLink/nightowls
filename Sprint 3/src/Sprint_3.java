@@ -29,7 +29,7 @@ public class Sprint_3 {
         robot.connect();
 
         //set pin and other static variables
-        pingPin = 7;    //digital pin
+        //pingPin = 7;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
