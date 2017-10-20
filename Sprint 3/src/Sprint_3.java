@@ -29,6 +29,7 @@ public class Sprint_3 {
     public static double windSlope;
     public static double windIntercept;
     public static int feetToTicks;
+    public static int feetToTime;
 
     public static void main(String[] args) {
             //set up robot
@@ -53,11 +54,12 @@ public class Sprint_3 {
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
             //calibrations
-        exposedSlope = -6.58594486;
-        exposedIntercept = 687.9718646;
-        windSlope = -15.595;
-        windIntercept = 448.26;
+        tempSlope = -6.58594486;
+        tempIntercept = 687.9718646;
+        windSlope = 5.2013;
+        windIntercept = 40.023;
         feetToTicks = 11;
+        feetToTime = 2666;
 
 
 
@@ -178,13 +180,14 @@ public class Sprint_3 {
             speeder = speed;
 
         int ticks = distance*feetToTicks;
+        int time = distance*feetToTime;
         int moved = 0;
         int space = 0;
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
-        robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, time);
 
         while(moved != ticks)
         {
@@ -198,7 +201,7 @@ public class Sprint_3 {
 
             if(space > 10)
             {
-                robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, 0);
+                robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, time);
             }
 
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
@@ -378,9 +381,8 @@ public class Sprint_3 {
         double anemometerReading = getAnemometerReading();
         double thermistorReading = getThermistorReading();
 
-        double windSpeed = ((thermistorReading-anemometerReading)-windIntercept)/windSlope;
-
-        //not entirely sure what we need here
+        double windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
+        
         System.out.println("The shielded thermistor read the value: " + anemometerReading);
         //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
 
