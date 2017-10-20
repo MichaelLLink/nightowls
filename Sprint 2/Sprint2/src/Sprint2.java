@@ -1,5 +1,6 @@
 import rxtxrobot.*;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class Sprint2 {
 
@@ -46,6 +47,7 @@ public class Sprint2 {
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
+        robot.moveServo(RXTXRobot.SERVO1, 90);
 
             //set up scanner and input
         Scanner input = new Scanner(System.in);
@@ -154,7 +156,8 @@ public class Sprint2 {
         robot.moveServo(RXTXRobot.SERVO1, angle);
 
         angle = input.nextInt();
-        angle = 0;
+        //angle = 0;
+
 
             //reset servo
         robot.moveServo(RXTXRobot.SERVO1, angle);
