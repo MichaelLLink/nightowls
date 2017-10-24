@@ -6,6 +6,8 @@ import java.lang.String;
 public class Sprint_3 {
 
     public static RXTXRobot robot;
+    public static int speedL;
+    public static int speedR;
     public static int speed;
     public static int pingFrontPin;
     //public static int pingLeftPin;
@@ -50,6 +52,8 @@ public class Sprint_3 {
         //gyroscopePin = ;  //Analog: [two pins??] might not be using this sooooo
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
+        speedL = 500;
+        speedR = 150;
         speed = 500;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
@@ -169,15 +173,23 @@ public class Sprint_3 {
     public static void move(int distance)
     {
         boolean reverse  = false;
+        int speederL = 0;
+        int speederR = 0;
         int speeder = 0;
 
         if(distance < 0)
         {
             reverse = true;
+            speederL = -speedL;
+            speederR = -speedR;
             speeder = -speed;
         }
         else
+        {
+            speederL = speedL;
+            speederR = speedR;
             speeder = speed;
+        }
 
         int ticks = distance*feetToTicks;
         int time = distance*feetToTime;
@@ -187,7 +199,7 @@ public class Sprint_3 {
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
-        robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, time);
+        robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
 
         while(moved != ticks)
         {
@@ -201,7 +213,8 @@ public class Sprint_3 {
 
             if(space > 10)
             {
-                robot.runMotor(RXTXRobot.MOTOR1, speeder, RXTXRobot.MOTOR2, -speeder, time);
+                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
+                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
             }
 
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
