@@ -38,8 +38,8 @@ public class Sprint2 {
         robot.attachMotor(RXTXRobot.MOTOR2,6);
 
             //calibrations
-        tempSlope = -6.58594486;
-        tempIntercept = 687.9718646;
+        tempSlope = -13.664;
+        tempIntercept = 991.71;
         windSlope = 5.2013;
         windIntercept = 40.023;
 
@@ -203,8 +203,8 @@ public class Sprint2 {
     {
         double thermistorReading = getThermistorReading();
 
-        //System.out.println("The probe read the value: " + thermistorReading);
-        //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
+        System.out.println("The probe read the value: " + thermistorReading);
+        System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
         double temp = 0;
 
