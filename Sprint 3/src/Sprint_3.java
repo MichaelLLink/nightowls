@@ -58,8 +58,8 @@ public class Sprint_3 {
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
             //calibrations
-        tempSlope = -6.58594486;
-        tempIntercept = 687.9718646;
+        tempSlope = -13.664;
+        tempIntercept = 991.71;
         windSlope = 5.2013;
         windIntercept = 40.023;
         feetToTicks = 11;
