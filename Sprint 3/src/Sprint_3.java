@@ -10,14 +10,12 @@ public class Sprint_3 {
     public static int speedR;
     public static int speed;
     public static int pingFrontPin;
-    //public static int pingLeftPin;
-    public static int pingRightPin;
+    public static int pingSidePin;
     public static int bumpPin;
     public static int tempPin;
     public static int windPin;
-    //public static int armPin;
-    //public static int gyroscopePin
-    //public static int boomPin;
+    public static int armPin;
+    public static int boomPin;
     public static int dumpPin;
 
         //data
@@ -40,16 +38,14 @@ public class Sprint_3 {
         robot.connect();
 
             //set pin and other static variables
-        pingFrontPin = 8;      //digital pin
-        pingRightPin = 7;    //digital pin
-        //pingLeftPin = ;   //digital
+        pingFrontPin = 7;      //digital pin
+        pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
         dumpPin = 9;     //digital
-        //boomPin = ;   //digital
-        //dumpPin = ;   //digital
-        //gyroscopePin = ;  //Analog: [two pins??] might not be using this sooooo
+        boomPin = 8;   //digital
+        dumpPin = 10;   //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
         speedL = 500;
@@ -119,7 +115,7 @@ public class Sprint_3 {
         //check that boom has been lowered
         turn(right);    //turn into the track
         move(3);          //move down ramp
-        senseGap(right);    //move till there's a gap to the right
+        senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this
         turn(right);    //turn to the right
             //move till we're where we need to be for the bridge
         move(4);
@@ -248,12 +244,12 @@ public class Sprint_3 {
 
     public static void lowerArm()
     {
-        robot.moveServo(RXTXRobot.SERVO3, 0);
+        robot.moveServo(RXTXRobot.SERVO3, 90);
     }
 
     public static void raiseArm()
     {
-        robot.moveServo(RXTXRobot.SERVO3, 180);
+        robot.moveServo(RXTXRobot.SERVO3, 0);
     }
 
     public static void deployBeacon()
@@ -321,12 +317,13 @@ public class Sprint_3 {
         }
     }
 
-    public static void senseGap(int direction)
+    public static void senseGap()
     {
         boolean gap = false;
         int distance = 0;
         int pin = 0;
-
+        
+/* this is done based on wiring now
         if(direction == 1) //left
         {
             //pin = pingLeftPin;
@@ -335,14 +332,14 @@ public class Sprint_3 {
         {
             pin = pingRightPin;
         }
-
+*/
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 0);
 
         while (!gap)
         {
-            distance = senseDistance(pin);
+            distance = senseDistance(pingSidePin);
 
             if(distance <= 10)
             {
