@@ -24,8 +24,8 @@ public class Sprint_3 {
     public static float conductivity;
 
     //calibrations
-    public static double exposedSlope;
-    public static double exposedIntercept;
+    public static double tempSlope;
+    public static double tempIntercept;
     public static double windSlope;
     public static double windIntercept;
     public static int feetToTicks;
@@ -365,7 +365,7 @@ public class Sprint_3 {
 
         double temp = 0;
 
-        temp = (thermistorReading - exposedIntercept)/exposedSlope;
+        temp = (thermistorReading - tempIntercept)/tempSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
     }
