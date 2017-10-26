@@ -115,6 +115,7 @@ public class Sprint_3 {
         {
             getWindSpeed();
         }
+        output();
         //lowerBoom();        //lower boom
         //check that boom has been lowered
         turn(right);    //turn into the track
