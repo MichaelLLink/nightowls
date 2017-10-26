@@ -5,31 +5,31 @@ import java.lang.String;
 
 public class Sprint_3 {
 
-    public static RXTXRobot robot;
-    public static int speedL;
-    public static int speedR;
-    public static int speed;
-    public static int pingFrontPin;
-    public static int pingSidePin;
-    public static int bumpPin;
-    public static int tempPin;
-    public static int windPin;
-    public static int armPin;
-    public static int boomPin;
-    public static int dumpPin;
+    private static RXTXRobot robot;
+    private static int speedL;
+    private static int speedR;
+    private static int speed;
+    private static int pingFrontPin;
+    private static int pingSidePin;
+    private static int bumpPin;
+    private static int tempPin;
+    private static int windPin;
+    private static int armPin;
+    private static int boomPin;
+    private static int dumpPin;
 
         //data
-    public static double windSpeed;
-    public static double temp;
-    public static float conductivity;
+    private static double windSpeed;
+    private static double temp;
+    private static float conductivity;
 
     //calibrations
-    public static double tempSlope;
-    public static double tempIntercept;
-    public static double windSlope;
-    public static double windIntercept;
-    public static int feetToTicks;
-    public static int feetToTime;
+    private static double tempSlope;
+    private static double tempIntercept;
+    private static double windSlope;
+    private static double windIntercept;
+    private static int feetToTicks;
+    private static int feetToTime;
 
     public static void main(String[] args) {
             //set up robot
@@ -46,6 +46,7 @@ public class Sprint_3 {
         dumpPin = 9;     //digital
         boomPin = 8;   //digital
         dumpPin = 10;   //digital
+        armPin = 6; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
         speedL = 500;
@@ -67,13 +68,13 @@ public class Sprint_3 {
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
         robot.attachServo(RXTXRobot.SERVO1, dumpPin);
-        //robot.attachServo(RXTXRobot.SERVO2,boomPin);
-        //robot.attachServo(RXTXRobot.SERVO3,armPin);
+        robot.attachServo(RXTXRobot.SERVO2,boomPin);
+        robot.attachServo(RXTXRobot.SERVO3,armPin);
 
             //get starting position
         boolean trackPicked = false;
         Scanner input = new Scanner(System.in);
-        int position = 0;
+        int position;
         int left = 0;
         int right = 0;
         System.out.println("What is your starting position? ");
@@ -84,13 +85,16 @@ public class Sprint_3 {
             {
                 left = 1;
                 right = 2;
+                trackPicked = true;
             } else if (position == 2)
             {
                 left = 2;
                 right = 1;
+                trackPicked = true;
             } else {
                 System.out.println("Invalid position, pick again");
                 //take input
+                position = input.nextInt();
             }
         }
 
@@ -111,7 +115,7 @@ public class Sprint_3 {
         {
             getWindSpeed();
         }
-        lowerBoom();        //lower boom
+        //lowerBoom();        //lower boom
         //check that boom has been lowered
         turn(right);    //turn into the track
         move(3);          //move down ramp
@@ -133,13 +137,13 @@ public class Sprint_3 {
         in = input.next();
         if(in == "n")
         {
-            while(in != "e" || in != "y")
+            while(in != "e" && in != "y")
             {
                 System.out.println("How about now? Y/N/E");
                 in = input.next();
             }
         }
-        if(in == "y") {
+        if(in.equals("y")) {
             move(2);           //go up ramp to bridge
             move(3);    //move across the bridge
             move(2);          //go down ramp on other side of the bridge
@@ -152,7 +156,7 @@ public class Sprint_3 {
             {
                 takeConductivity();
             }
-            if (conductivity == yesWater) {
+            if (conductivity >= yesWater) {
                 deployBeacon();
                 //check that beacon was deployed
             }
@@ -161,40 +165,41 @@ public class Sprint_3 {
 
             output(); //if needed, rn it'll just display to screen
 
+            robot.moveAllServos(0,0,0);
             robot.close();
         }
         else robot.close();
     }
 
-    public static void move(int distance)
+    private static void move(int distance)
     {
-        boolean reverse  = false;
-        int speederL = 0;
-        int speederR = 0;
-        int speeder = 0;
+        //boolean reverse  = false;
+        int speederL;
+        int speederR;
+        //int speeder = 0;
 
         if(distance < 0)
         {
-            reverse = true;
+            //reverse = true;
             speederL = -speedL;
             speederR = -speedR;
-            speeder = -speed;
+            //speeder = -speed;
         }
         else
         {
             speederL = speedL;
             speederR = speedR;
-            speeder = speed;
+            //speeder = speed;
         }
 
         int ticks = distance*feetToTicks;
         int time = distance*feetToTime;
         int moved = 0;
-        int space = 0;
+        int space;
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-        //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
+        //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
         robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
 
         while(moved != ticks)
@@ -209,7 +214,7 @@ public class Sprint_3 {
 
             if(space > 10)
             {
-                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, ticks, RXTXRobot.MOTOR2, -speed, ticks);
+                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
                 robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
             }
 
@@ -218,7 +223,7 @@ public class Sprint_3 {
 
     }
 
-    public static void turn(int direction)
+    private static void turn(int direction)
     {
         if(direction == 1) //left
         {
@@ -232,44 +237,39 @@ public class Sprint_3 {
         }
     }
 
-    public static void raiseBoom()
+    private static void raiseBoom()
     {
         robot.moveServo(RXTXRobot.SERVO2, 180);
     }
 
-    public static void lowerBoom()
+    private static void lowerBoom()
     {
         robot.moveServo(RXTXRobot.SERVO2, 0);
     }
 
-    public static void lowerArm()
+    private static void lowerArm()
     {
         robot.moveServo(RXTXRobot.SERVO3, 90);
     }
 
-    public static void raiseArm()
+    private static void raiseArm()
     {
         robot.moveServo(RXTXRobot.SERVO3, 0);
     }
 
-    public static void deployBeacon()
+    private static void deployBeacon()
     {
         robot.moveServo(RXTXRobot.SERVO1, 145);
         //add a bit of buffer here
-        robot.moveServo(RXTXRobot.SERVO1, 0);
+        //robot.moveServo(RXTXRobot.SERVO1, 0);
     }
 
-    public static void takeConductivity()
+    private static void takeConductivity()
     {
         conductivity = robot.getConductivity();
     }
 
-    public static void changeAngle(int angle)
-    {
-        robot.moveServo(RXTXRobot.SERVO1, angle);
-    }
-
-    public static void runTillBump()
+    private static void runTillBump()
     {
         boolean bumpTriggered = false;
 
@@ -296,10 +296,10 @@ public class Sprint_3 {
         }
     }
 
-    public static void moveTillSense()
+    private static void moveTillSense()
     {
         boolean tooClose = false;
-        int distance = 0;
+        int distance;
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
@@ -317,11 +317,11 @@ public class Sprint_3 {
         }
     }
 
-    public static void senseGap()
+    private static void senseGap()
     {
         boolean gap = false;
-        int distance = 0;
-        int pin = 0;
+        int distance;
+        //int pin = 0;
         
 /* this is done based on wiring now
         if(direction == 1) //left
@@ -349,28 +349,28 @@ public class Sprint_3 {
         }
     }
 
-    public static int senseDistance(int pin)
+    private static int senseDistance(int pin)
     {
         robot.refreshDigitalPins();
-        int distance = robot.getPing(pin); //remember to check pin
-        return distance;
+        //int distance = robot.getPing(pin); //remember to check pin
+        return robot.getPing(pin);
     }
 
-    public static void takeTemp()
+    private static void takeTemp()
     {
         double thermistorReading = getThermistorReading();
 
         //System.out.println("The probe read the value: " + thermistorReading);
         //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
-        double temp = 0;
+        temp = 0;
 
         temp = (thermistorReading - tempIntercept)/tempSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
     }
 
-    public static int getThermistorReading()
+    private static int getThermistorReading()
     {
         int sum = 0;
         int readingCount = 10;
@@ -386,12 +386,12 @@ public class Sprint_3 {
     }
 
 //UNCALIBRATED
-    public static void getWindSpeed()
+    private static void getWindSpeed()
     {
         double anemometerReading = getAnemometerReading();
         double thermistorReading = getThermistorReading();
 
-        double windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
+        windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
         
         System.out.println("The shielded thermistor read the value: " + anemometerReading);
         //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
@@ -403,7 +403,7 @@ public class Sprint_3 {
 
     }
 
-    public static int getAnemometerReading()
+    private static int getAnemometerReading()
     {
         int sum = 0;
         int readingCount = 10;
@@ -419,7 +419,7 @@ public class Sprint_3 {
     }
 
 //UNSURE IF THIS IS SOMETHING WE NEED BUT HERE IT IS. IF WE HAVE TO OUTPUT TO A FILE, WE CAN SET THAT UP LATER, I GUESS
-    public static void output()
+    private static void output()
     {
         System.out.println("The TEMPERATURE is: " + temp + " celsius");
         System.out.println("The WIND SPEED is: " + temp + "Whatever the wind units are");
