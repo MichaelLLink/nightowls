@@ -27,12 +27,12 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        //pingPin = 7;    //digital pin
+        pingPin = 11;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
-        armPin = 9;     //digital
+        armPin = 8;     //digital
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
@@ -127,10 +127,15 @@ public class Sprint2 {
         //move 3 feet
         //robot.runEncodedMotor(RXTXRobot.MOTOR2, -speed, ticks, RXTXRobot.MOTOR1, speed, ticks);
         System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
         Scanner input = new Scanner(System.in);;
         int in = 1;
 
-        robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, -500, 8000);
+        robot.runMotor(RXTXRobot.MOTOR1, -150, RXTXRobot.MOTOR2, 500, 8000);
+        //robot.runMotor(RXTXRobot.MOTOR1, 150, 8000);
+
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
 
         /*
         while(in != 0)
