@@ -103,23 +103,7 @@ public class Sprint3 {
         turn(left);    //turn left
         moveTillSense();    //move till barrier
         move(3);           //move up ramp
-        raiseBoom();        //raise boom
-        //check that boom was raised
-        /*
-        takeTemp();         //take temp
-        if(temp == 0)       //check that temp was actually taken
-        {
-            takeTemp();
-        }
-        getWindSpeed();     //get wind speed
-        if(windSpeed == 0)  //check that wind speed was taken
-        {
-            getWindSpeed();
-        }
-        */
         output();
-        //lowerBoom();        //lower boom
-        //check that boom has been lowered
         turn(right);    //turn into the track
         move(3);          //move down ramp
         senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this
@@ -153,23 +137,7 @@ public class Sprint3 {
             moveTillSense();    //only works if the playing field is bounded
             turn(left);    //turn left
             runTillBump();      //run into the soil container
-            //lowerArm();         //drop conductivity probe into soil
-            /*
-            takeConductivity();     //take conductivity
-            if (conductivity == 0)   //make sure conductivity was taken
-            {
-                takeConductivity();
-            }
-            if (conductivity >= yesWater) {
-                deployBeacon();
-                //check that beacon was deployed
-            }
-            raiseArm();         //raise conductivity probe
-            //check that the probe has been raised
-*/
             output(); //if needed, rn it'll just display to screen
-
-            //robot.moveAllServos(0,0,0);
             robot.close();
         }
         else robot.close();
