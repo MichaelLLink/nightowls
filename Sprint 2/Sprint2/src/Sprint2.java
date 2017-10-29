@@ -38,8 +38,8 @@ public class Sprint2 {
         robot.attachMotor(RXTXRobot.MOTOR2,6);
 
             //calibrations
-        tempSlope = -13.664;
-        tempIntercept = 991.71;
+        tempSlope = -6.3901;
+        tempIntercept = 679.1;
         windSlope = 5.2013;
         windIntercept = 40.023;
 
@@ -131,7 +131,8 @@ public class Sprint2 {
         Scanner input = new Scanner(System.in);;
         int in = 1;
 
-        robot.runMotor(RXTXRobot.MOTOR1, -150, RXTXRobot.MOTOR2, 500, 8000);
+        //robot.runMotor(RXTXRobot.MOTOR1, -150, RXTXRobot.MOTOR2, 500, 8000);
+        robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, 500, 2000); //turn test
         //robot.runMotor(RXTXRobot.MOTOR1, 150, 8000);
 
         System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
