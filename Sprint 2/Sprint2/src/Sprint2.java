@@ -32,7 +32,7 @@ public class Sprint2 {
         tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
-        armPin = 8;     //digital
+        armPin = 10;     //digital
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
@@ -40,10 +40,10 @@ public class Sprint2 {
             //calibrations
         tempSlope = -6.3901;
         tempIntercept = 679.1;
-        windSlope = 5.2013;
-        windIntercept = 40.023;
+        windSlope = 7.0291;
+        windIntercept = 12.336;
 
-        speed = 200;
+        speed = 500;
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
@@ -118,6 +118,20 @@ public class Sprint2 {
 
     public static void move()
     {
+        boolean tooClose = false;
+        int distance;
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        while (!tooClose) {
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingPin); //remember to check pin
+            if (distance > 50) {
+                tooClose = true;
+                //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 500);
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 900);
+            }
+        }
+        /*
         //distance in inches
         int distance = 3;
 
@@ -131,9 +145,9 @@ public class Sprint2 {
         Scanner input = new Scanner(System.in);;
         int in = 1;
 
-        //robot.runMotor(RXTXRobot.MOTOR1, -150, RXTXRobot.MOTOR2, 500, 8000);
-        robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, 500, 2000); //turn test
-        //robot.runMotor(RXTXRobot.MOTOR1, 150, 8000);
+        //robot.runMotor(RXTXRobot.MOTOR2, 500, RXTXRobot.MOTOR1, -150, 8000);
+        //robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, 500, 2000); //turn test
+        robot.runMotor(RXTXRobot.MOTOR2, 500, 8000);
 
         System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
         System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -150,6 +164,7 @@ public class Sprint2 {
         */
         //robot.runEncodedMotor();
         //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 5000);
+
     }
 
     public static void changeAngle()
@@ -172,6 +187,7 @@ public class Sprint2 {
     public static void runTillBump()
     {
         boolean bumpTriggered = false;
+        boolean ideling = false;
 
         robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
 
@@ -179,6 +195,22 @@ public class Sprint2 {
         {
             robot.refreshAnalogPins();
             int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
+
+            robot.refreshDigitalPins();
+            int space = robot.getPing(pingPin); //remember to check pin
+
+            if(space <= 10)
+            {
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("idling");
+                ideling = true;
+            }
+            if(space > 10 && ideling == true)
+            {
+                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+                ideling = false;
+            }
 
             //add if statement to set bumpTriggered based on reading
             if(reading == 0) {
