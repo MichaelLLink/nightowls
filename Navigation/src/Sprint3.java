@@ -145,7 +145,7 @@ public class Sprint3 {
 
     private static void move(int distance)
     {
-        //boolean reverse  = false;
+        boolean ideling = false;
         int speederL;
         int speederR;
         //int speeder = 0;
@@ -172,26 +172,39 @@ public class Sprint3 {
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-        robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
+        space = senseDistance(pingFrontPin);
+
+        if(space > 10)
+        {
+            robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
+        }
+
 
         while(moved != ticks)
         {
-            space = senseDistance(pingFrontPin);
+            robot.refreshAnalogPins();
+            int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
+
+            robot.refreshDigitalPins();
+            space = robot.getPing(pingFrontPin); //remember to check pin
 
             if(space <= 10)
             {
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
                 System.out.println("idling");
+                ideling = true;
             }
-
-            if(space > 10)
+            if(space > 10 && ideling == true)
             {
                 //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
+                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
+                ideling = false;
             }
 
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
         }
+
+        robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
 
     }
 
@@ -200,12 +213,12 @@ public class Sprint3 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, 2000);
+            robot.runMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, 500);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 2000);
+            robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 5000);
         }
     }
 
