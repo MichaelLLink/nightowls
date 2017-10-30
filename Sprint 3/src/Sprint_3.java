@@ -55,18 +55,17 @@ public class Sprint_3 {
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
             //calibrations
-        tempSlope = -13.664;
-        tempIntercept = 991.71;
-        windSlope = 5.2013;
-        windIntercept = 40.023;
+        tempSlope = -6.3901;
+        tempIntercept = 679.1;
+        windSlope = 7.0291;
+        windIntercept = 12.336;
         feetToTicks = 11;
         feetToTime = 2666;
-
-
 
             //set up motors and sensors
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
+        robot.attachMotor(RXTXRobot.MOTOR3, 7);
         robot.attachServo(RXTXRobot.SERVO1, dumpPin);
         robot.attachServo(RXTXRobot.SERVO2,boomPin);
         robot.attachServo(RXTXRobot.SERVO3,armPin);
@@ -116,7 +115,7 @@ public class Sprint_3 {
             getWindSpeed();
         }
         output();
-        //lowerBoom();        //lower boom
+        lowerBoom();        //lower boom
         //check that boom has been lowered
         turn(right);    //turn into the track
         move(3);          //move down ramp
@@ -240,11 +239,13 @@ public class Sprint_3 {
 
     private static void raiseBoom()
     {
+        robot.runMotor(RXTXRobot.MOTOR3, 500, 1000);
         robot.moveServo(RXTXRobot.SERVO2, 180);
     }
 
     private static void lowerBoom()
     {
+        robot.runMotor(RXTXRobot.MOTOR3, -500, 1000);
         robot.moveServo(RXTXRobot.SERVO2, 0);
     }
 
