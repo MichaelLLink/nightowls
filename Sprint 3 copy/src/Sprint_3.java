@@ -43,10 +43,9 @@ public class Sprint_3 {
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
-        dumpPin = 9;     //digital
-        boomPin = 8;   //digital
-        dumpPin = 10;   //digital
-        armPin = 6; //digital
+        boomPin = 9;   //digital
+        dumpPin = 8;   //digital
+        armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
         speedL = 500;
@@ -55,10 +54,10 @@ public class Sprint_3 {
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
             //calibrations
-        tempSlope = -13.664;
-        tempIntercept = 991.71;
-        windSlope = 5.2013;
-        windIntercept = 40.023;
+        tempSlope = -6.3901;
+        tempIntercept = 679.1;
+        windSlope = 7.0291;
+        windIntercept = 12.336;
         feetToTicks = 11;
         feetToTime = 2666;
 
@@ -168,8 +167,6 @@ public class Sprint_3 {
             //check that the probe has been raised
 */
             output(); //if needed, rn it'll just display to screen
-
-            //robot.moveAllServos(0,0,0);
             robot.close();
         }
         else robot.close();
