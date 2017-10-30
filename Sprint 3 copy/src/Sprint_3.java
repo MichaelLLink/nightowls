@@ -16,6 +16,7 @@ public class Sprint_3 {
     private static int windPin;
     private static int armPin;
     private static int boomPin;
+    private static int boomDCPin;
     private static int dumpPin;
 
         //data
@@ -38,12 +39,13 @@ public class Sprint_3 {
         robot.connect();
 
             //set pin and other static variables
-        pingFrontPin = 7;      //digital pin
+        pingFrontPin = 4;      //digital pin
         pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
         boomPin = 9;   //digital
+        boomDCPin = 7; //digital
         dumpPin = 8;   //digital
         armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
@@ -66,6 +68,7 @@ public class Sprint_3 {
             //set up motors and sensors
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
+        robot.attachMotor(RXTXRobot.MOTOR3, 7);
         //robot.attachServo(RXTXRobot.SERVO1, dumpPin);
         //robot.attachServo(RXTXRobot.SERVO2,boomPin);
         //robot.attachServo(RXTXRobot.SERVO3,armPin);
