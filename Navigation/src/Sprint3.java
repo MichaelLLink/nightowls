@@ -104,21 +104,25 @@ public class Sprint3 {
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1400);
         turn(left);    //turn left
 
-        moveTillSense();    //move till barrier
+        moveTillSense(20);    //move till barrier
+        while(senseDistance(pingFrontPin) <= 20)
+        {
+            System.out.println("Barrier");
+        }
         move(2);           //move up ramp
         output();
         turn(right);    //turn into the track
-        move(3);          //move down ramp
-        senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this
+        move(2);          //move down ramp
+        senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this)
         turn(right);    //turn to the right
         //move till we're where we need to be for the bridge
-        move(4);
+        move(2);
         turn(left);
-        runTillBump();
-        move(-1);
+        moveTillSense(50);
+        //move(-1);
         turn(right);
-        runTillBump();
-        move(-1);//line up with bridge
+        moveTillSense(50);
+        //move(-1);//line up with bridge
         turn(right);
 
         //PAUSE TO NOT RUN OFF THE EDGE AND BREAK THE ROBOT
@@ -136,8 +140,7 @@ public class Sprint3 {
         if(in.equals("y")) {
             move(2);           //go up ramp to bridge
             move(3);    //move across the bridge
-            move(2);          //go down ramp on other side of the bridge
-            moveTillSense();    //only works if the playing field is bounded
+            moveTillSense(30);    //go down ramp on other side of the bridge
             turn(left);    //turn left
             runTillBump();      //run into the soil container
             output(); //if needed, rn it'll just display to screen
@@ -177,6 +180,9 @@ public class Sprint3 {
             //speeder = speed;
         }
 
+        robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
+
+        /*
         if(space >= 20) {
             robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
         }
@@ -201,7 +207,7 @@ public class Sprint3 {
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
             System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
         }
-
+*/
     }
 /*
     private static void move(int distance)
@@ -343,7 +349,7 @@ public class Sprint3 {
         }
     }
 
-    private static void moveTillSense()
+    private static void moveTillSense(int space)
     {
         boolean tooClose = false;
         int distance;
@@ -356,7 +362,7 @@ public class Sprint3 {
         {
             distance = senseDistance(pingFrontPin);
 
-            if(distance <= 10)
+            if(distance <= space)
             {
                 tooClose = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
