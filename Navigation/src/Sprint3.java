@@ -174,7 +174,7 @@ public class Sprint3 {
         //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
         space = senseDistance(pingFrontPin);
 
-        if(space > 10)
+        if(space > 20)
         {
             robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
         }
@@ -188,18 +188,20 @@ public class Sprint3 {
             robot.refreshDigitalPins();
             space = robot.getPing(pingFrontPin); //remember to check pin
 
-            if(space <= 10)
+            if(space <= 20)
             {
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
                 System.out.println("idling");
                 ideling = true;
             }
-            if(space > 10 && ideling == true)
+            if(space > 20 && ideling == true)
             {
                 //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
                 robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
                 ideling = false;
             }
+            if(!ideling)
+                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
 
             moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
         }
@@ -213,12 +215,12 @@ public class Sprint3 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, 500);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1400);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 5000);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1400);
         }
     }
 
