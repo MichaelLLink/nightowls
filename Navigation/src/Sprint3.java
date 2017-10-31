@@ -41,16 +41,16 @@ public class Sprint3 {
         pingFrontPin = 7;      //digital pin
         pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
         bumpPin = 3;   //analog pin
-        tempPin = 0;    //analog
-        windPin = 1;  //analog
-        dumpPin = 9;     //digital
-        boomPin = 8;   //digital
-        dumpPin = 10;   //digital
-        armPin = 6; //digital
+        //tempPin = 0;    //analog
+        //windPin = 1;  //analog
+        //dumpPin = 9;     //digital
+        //boomPin = 8;   //digital
+        //dumpPin = 10;   //digital
+        //armPin = 6; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
         speedL = 500;
-        speedR = 150;
+        speedR = 500;
         speed = 500;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
@@ -60,7 +60,7 @@ public class Sprint3 {
         windSlope = 5.2013;
         windIntercept = 40.023;
         feetToTicks = 11;
-        feetToTime = 2666;
+        feetToTime = 609;
 
 
 
@@ -100,9 +100,12 @@ public class Sprint3 {
 
         //run through the course
         move(1);    //move out of the starting box
+        System.out.println("attempting to turn");
+        //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1400);
         turn(left);    //turn left
+
         moveTillSense();    //move till barrier
-        move(3);           //move up ramp
+        move(2);           //move up ramp
         output();
         turn(right);    //turn into the track
         move(3);          //move down ramp
@@ -143,6 +146,64 @@ public class Sprint3 {
         else robot.close();
     }
 
+
+    private static void move(int distance)
+    {
+        int time = distance*1000;
+        int ticks = distance*feetToTicks;
+
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+        int moved = 0;
+
+        int speederL;
+        int speederR;
+
+        boolean ideling = false;
+        int space = senseDistance(pingFrontPin);
+
+
+        if(distance < 0)
+        {
+            //reverse = true;
+            speederL = -speedL;
+            speederR = -speedR;
+            //speeder = -speed;
+        }
+        else
+        {
+            speederL = speedL;
+            speederR = speedR;
+            //speeder = speed;
+        }
+
+        if(space >= 20) {
+            robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
+        }
+
+        while(moved != ticks) {
+            space = senseDistance(pingFrontPin);
+
+            if(space <= 20) {
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                ideling = true;
+            }
+            else
+                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
+
+            if(space > 20 && ideling == true)
+            {
+                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
+                ideling = false;
+            }
+
+
+            moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
+            System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+        }
+
+    }
+/*
     private static void move(int distance)
     {
         boolean ideling = false;
@@ -165,7 +226,7 @@ public class Sprint3 {
         }
 
         int ticks = distance*feetToTicks;
-        int time = distance*feetToTime;
+        int time = distance*1000;
         int moved = 0;
         int space;
 
@@ -179,11 +240,10 @@ public class Sprint3 {
             robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
         }
 
-
         while(moved != ticks)
         {
             robot.refreshAnalogPins();
-            int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
+            //int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
 
             robot.refreshDigitalPins();
             space = robot.getPing(pingFrontPin); //remember to check pin
@@ -209,7 +269,7 @@ public class Sprint3 {
         robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
 
     }
-
+*/
     private static void turn(int direction)
     {
         if(direction == 1) //left
@@ -300,6 +360,7 @@ public class Sprint3 {
             {
                 tooClose = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("barrier reached");
             }
         }
     }
@@ -339,8 +400,8 @@ public class Sprint3 {
     private static int senseDistance(int pin)
     {
         robot.refreshDigitalPins();
-        //int distance = robot.getPing(pin); //remember to check pin
-        return robot.getPing(pin);
+        int distance = robot.getPing(pin); //remember to check pin
+        return distance;
     }
 
     private static void takeTemp()
