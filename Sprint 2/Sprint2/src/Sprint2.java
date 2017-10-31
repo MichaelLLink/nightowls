@@ -121,8 +121,9 @@ public class Sprint2 {
         boolean tooClose = false;
         int distance;
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, 500, 500);
 
+        /*
         while (!tooClose) {
             robot.refreshDigitalPins();
             distance = robot.getPing(pingPin); //remember to check pin
