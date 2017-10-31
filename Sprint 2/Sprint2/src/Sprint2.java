@@ -27,7 +27,7 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        pingPin = 11;    //digital pin
+        pingPin = 7;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
@@ -43,7 +43,7 @@ public class Sprint2 {
         windSlope = 7.0291;
         windIntercept = 12.336;
 
-        speed = 500;
+        speed = 250;
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
@@ -122,6 +122,7 @@ public class Sprint2 {
         int distance;
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
         //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+
         while (!tooClose) {
             robot.refreshDigitalPins();
             distance = robot.getPing(pingPin); //remember to check pin
@@ -189,7 +190,7 @@ public class Sprint2 {
         boolean bumpTriggered = false;
         boolean ideling = false;
 
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
 
         while (!bumpTriggered)
         {
@@ -198,17 +199,27 @@ public class Sprint2 {
 
             robot.refreshDigitalPins();
             int space = robot.getPing(pingPin); //remember to check pin
+            senseDistance();
 
-            if(space <= 10)
+            if(space <= 20)
             {
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
                 System.out.println("idling");
+                senseDistance();
                 ideling = true;
             }
-            if(space > 10 && ideling == true)
+
+            if(!ideling)
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+
+            robot.refreshDigitalPins();
+            space = robot.getPing(pingPin); //remember to check pin
+
+            if(space > 20 && ideling == true)
             {
                 //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
                 robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+                senseDistance();
                 ideling = false;
             }
 
