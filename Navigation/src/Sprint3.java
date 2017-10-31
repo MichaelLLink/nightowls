@@ -49,7 +49,7 @@ public class Sprint3 {
         //armPin = 6; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
-        speedL = 500;
+        speedL = 500; //get motor speed ratios
         speedR = 500;
         speed = 500;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
