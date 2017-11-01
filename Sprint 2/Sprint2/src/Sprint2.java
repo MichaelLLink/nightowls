@@ -36,6 +36,7 @@ public class Sprint2 {
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
+        robot.attachMotor(RXTXRobot.MOTOR3,4);
 
             //calibrations
         tempSlope = -6.3901;
@@ -47,6 +48,8 @@ public class Sprint2 {
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
+        robot.attachServo(RXTXRobot.SERVO3,2);
+
         robot.moveServo(RXTXRobot.SERVO1, 90);
 
             //set up scanner and input
@@ -87,6 +90,9 @@ public class Sprint2 {
                     //getConductivity();
                     getWindSpeed();
                     break;
+                case 7:
+                    raiseBoom();
+                    break;
                 case 0:
                     break;
                 default:
@@ -113,6 +119,7 @@ public class Sprint2 {
         System.out.println("4 - Ping Test");
         System.out.println("5 - Temperature Test");
         System.out.println("6 - Anemometer Test");
+        System.out.println("7 - Boom DC Test");
         System.out.println("0 - Exit");
     }
 
@@ -176,14 +183,30 @@ public class Sprint2 {
         angle = input.nextInt();
 
             //move servo
-        robot.moveServo(RXTXRobot.SERVO1, angle);
+        robot.moveServo(RXTXRobot.SERVO3, angle);
 
         angle = input.nextInt();
         //angle = 0;
 
 
             //reset servo
-        robot.moveServo(RXTXRobot.SERVO1, angle);
+        robot.moveServo(RXTXRobot.SERVO3, angle);
+    }
+    public static void raiseBoom()
+    {
+        Scanner input = new Scanner(System.in);
+        int time = 0;
+        time = input.nextInt();
+
+        //move servo
+        robot.runMotor(RXTXRobot.MOTOR3,100,time);
+
+        time = input.nextInt();
+        //angle = 0;
+
+
+        //reset servo
+        robot.runMotor(RXTXRobot.MOTOR3,-100,time);
     }
 
     public static void runTillBump()
