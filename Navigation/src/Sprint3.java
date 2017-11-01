@@ -51,6 +51,7 @@ public class Sprint3 {
 
         speedL = 500; //get motor speed ratios
         speedR = 500;
+        int lstraight = 300;
         speed = 500;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
@@ -99,31 +100,44 @@ public class Sprint3 {
         }
 
         //run through the course
-        move(1);    //move out of the starting box
+        /*
+        speedL=lstraight;
+        move(1.5);    //move out of the starting box
         System.out.println("attempting to turn");
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1400);
         turn(left);    //turn left
 
-        moveTillSense(20);    //move till barrier
-        while(senseDistance(pingFrontPin) <= 20)
+        speedL=150;
+        speedR=250;
+        moveTillSense(30);    //move till barrier
+
+        while(robot.getPing(pingFrontPin) <= 50)
         {
+            robot.refreshDigitalPins();
             System.out.println("Barrier");
         }
+        //senseGap();
+        speedL=500;
         move(2);           //move up ramp
         output();
         turn(right);    //turn into the track
-        move(2);          //move down ramp
+        speedL=lstraight;
+        */
+
+        move(1);          //move down ramp
+        speedL=250;
+        speedR=250;
         senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this)
         turn(right);    //turn to the right
         //move till we're where we need to be for the bridge
-        move(2);
+        move(3);
+        turn(right);
+        moveTillSense(100);
+        //move(-1);
         turn(left);
         moveTillSense(50);
-        //move(-1);
-        turn(right);
-        moveTillSense(50);
         //move(-1);//line up with bridge
-        turn(right);
+        turn(left);
 
         //PAUSE TO NOT RUN OFF THE EDGE AND BREAK THE ROBOT
         System.out.println("Are we lined up? Y/N ");
@@ -138,7 +152,9 @@ public class Sprint3 {
             }
         }
         if(in.equals("y")) {
+            speedL=500;
             move(2);           //go up ramp to bridge
+            speedL=lstraight;
             move(3);    //move across the bridge
             moveTillSense(30);    //go down ramp on other side of the bridge
             turn(left);    //turn left
@@ -150,10 +166,10 @@ public class Sprint3 {
     }
 
 
-    private static void move(int distance)
+    private static void move(double distance)
     {
-        int time = distance*1000;
-        int ticks = distance*feetToTicks;
+        int time = (int)distance*1000;
+        int ticks = (int)distance*feetToTicks;
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
@@ -180,102 +196,9 @@ public class Sprint3 {
             //speeder = speed;
         }
 
-        robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
-
-        /*
-        if(space >= 20) {
-            robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
-        }
-
-        while(moved != ticks) {
-            space = senseDistance(pingFrontPin);
-
-            if(space <= 20) {
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                ideling = true;
-            }
-            else
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
-
-            if(space > 20 && ideling == true)
-            {
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
-                ideling = false;
-            }
-
-
-            moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
-            System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
-        }
-*/
+        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, time);
     }
-/*
-    private static void move(int distance)
-    {
-        boolean ideling = false;
-        int speederL;
-        int speederR;
-        //int speeder = 0;
 
-        if(distance < 0)
-        {
-            //reverse = true;
-            speederL = -speedL;
-            speederR = -speedR;
-            //speeder = -speed;
-        }
-        else
-        {
-            speederL = speedL;
-            speederR = speedR;
-            //speeder = speed;
-        }
-
-        int ticks = distance*feetToTicks;
-        int time = distance*1000;
-        int moved = 0;
-        int space;
-
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-
-        //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-        space = senseDistance(pingFrontPin);
-
-        if(space > 20)
-        {
-            robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
-        }
-
-        while(moved != ticks)
-        {
-            robot.refreshAnalogPins();
-            //int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
-
-            robot.refreshDigitalPins();
-            space = robot.getPing(pingFrontPin); //remember to check pin
-
-            if(space <= 20)
-            {
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                System.out.println("idling");
-                ideling = true;
-            }
-            if(space > 20 && ideling == true)
-            {
-                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
-                ideling = false;
-            }
-            if(!ideling)
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, 0);
-
-            moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
-        }
-
-        robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-
-    }
-*/
     private static void turn(int direction)
     {
         if(direction == 1) //left
@@ -375,27 +298,17 @@ public class Sprint3 {
     {
         boolean gap = false;
         int distance;
-        //int pin = 0;
 
-/* this is done based on wiring now
-        if(direction == 1) //left
-        {
-            //pin = pingLeftPin;
-        }
-        else if(direction == 2) //right
-        {
-            pin = pingRightPin;
-        }
-*/
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 0);
 
         while (!gap)
         {
-            distance = senseDistance(pingSidePin);
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingSidePin);
 
-            if(distance <= 10)
+            if(distance > 65)
             {
                 gap = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
