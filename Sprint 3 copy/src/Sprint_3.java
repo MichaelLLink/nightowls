@@ -126,7 +126,7 @@ public class Sprint_3 {
         {
             getWindSpeed();
         }
-        
+
         output();
         //lowerBoom();        //lower boom
         turn(right);    //turn into the track
