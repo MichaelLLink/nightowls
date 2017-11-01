@@ -15,7 +15,7 @@ public class Sprint_3 {
     private static int tempPin;
     private static int windPin;
     private static int armPin;
-    private static int boomPin;
+    //private static int boomPin;
     private static int boomDCPin;
     private static int dumpPin;
 
@@ -39,39 +39,40 @@ public class Sprint_3 {
         robot.connect();
 
             //set pin and other static variables
-        pingFrontPin = 4;      //digital pin
+        pingFrontPin = 7;      //digital pin
         pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
-        boomPin = 9;   //digital
-        boomDCPin = 7; //digital
+        //boomPin = 9;   //digital
+        boomDCPin = 4; //digital
         dumpPin = 8;   //digital
         armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
-        speedL = 500;
-        speedR = 150;
-        speed = 500;
+        speedL = 250;
+        speedR = 250;
+        int fast = 500;
+        int slowL = 250;
+        int slowR = 250;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
             //calibrations
-        tempSlope = -6.3901;
-        tempIntercept = 679.1;
-        windSlope = 7.0291;
-        windIntercept = 12.336;
+        tempSlope = -13.664;
+        tempIntercept = 991.71;
+        windSlope = 5.2013;
+        windIntercept = 40.023;
         feetToTicks = 11;
-        feetToTime = 2666;
+        feetToTime = 609;
 
 
 
             //set up motors and sensors
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
-        robot.attachMotor(RXTXRobot.MOTOR3, 7);
-        //robot.attachServo(RXTXRobot.SERVO1, dumpPin);
-        //robot.attachServo(RXTXRobot.SERVO2,boomPin);
-        //robot.attachServo(RXTXRobot.SERVO3,armPin);
+        robot.attachMotor(RXTXRobot.MOTOR3, boomDCPin);
+        robot.attachServo(RXTXRobot.SERVO1, dumpPin);
+        robot.attachServo(RXTXRobot.SERVO3,armPin);
 
             //get starting position
         boolean trackPicked = false;
@@ -101,13 +102,19 @@ public class Sprint_3 {
         }
 
             //run through the course
-        moveTillSense();    //move out of the starting box
-        turn(left);    //turn left
-        moveTillSense();    //move till barrier
-        move(3);           //move up ramp
-        raiseBoom();        //raise boom
-        //check that boom was raised
-        /*
+        move(1.5);  //leave start
+        turn(left); //turn into track
+        moveTillSense(30);  //move till arbitrary barrier
+        while(robot.getPing(pingFrontPin) <= 50)    //wait for barrier to be removed
+        {
+            robot.refreshDigitalPins();
+            System.out.println("Barrier");
+        }
+        //move up ramp
+        speedL = fast;
+        speedR = fast;
+        move(2);
+        //raiseBoom();        //raise boom
         takeTemp();         //take temp
         if(temp == 0)       //check that temp was actually taken
         {
@@ -118,113 +125,74 @@ public class Sprint_3 {
         {
             getWindSpeed();
         }
-        */
         output();
         //lowerBoom();        //lower boom
-        //check that boom has been lowered
         turn(right);    //turn into the track
-        move(3);          //move down ramp
-        senseGap();    //move till there's a gap to whatever side we need (adjust wiring for this
-        turn(right);    //turn to the right
-            //move till we're where we need to be for the bridge
-        move(4);
-        turn(left);
-        runTillBump();
-        move(-1);
-        turn(right);
-        runTillBump();
-        move(-1);//line up with bridge
-        turn(right);
+        speedL = slowL;
+        speedR = slowR;
+        move(1);          //move down ramp
+        senseGap();             //move till there's a gap to whatever side we need
+        turn(right);            //turn into gap
+        move(3);    //move through gap
+        turn(right);         //turn towards the back wall
+        moveTillSense(100);     //move till we're close enough to back wall
+        turn(left);     //turn towards bridge
+        moveTillSense(50);  //line up with bridge
+        turn(left);     //turn in to bridge
 
-        //PAUSE TO NOT RUN OFF THE EDGE AND BREAK THE ROBOT
-        System.out.println("Are we lined up? Y/N ");
-        String in;
-        in = input.next();
-        if(in == "n")
+        speedL=fast;
+        speedR=fast;
+        move(2);           //go up ramp to bridge
+        speedL=slowL;
+        speedR=slowR;
+        move(3);        //move across the bridge
+        move(1);        //go down ramp on other side of the bridge
+        turn(left);             //turn towards soil
+        runTillBump();          //run into the soil container
+        lowerArm();             //drop conductivity probe into soil
+
+        takeConductivity();     //take conductivity
+        if (conductivity == 0)   //make sure conductivity was taken
         {
-            while(in != "e" && in != "y")
-            {
-                System.out.println("How about now? Y/N/E");
-                in = input.next();
-            }
+            takeConductivity();
         }
-        if(in.equals("y")) {
-            move(2);           //go up ramp to bridge
-            move(3);    //move across the bridge
-            move(2);          //go down ramp on other side of the bridge
-            moveTillSense();    //only works if the playing field is bounded
-            turn(left);    //turn left
-            runTillBump();      //run into the soil container
-            //lowerArm();         //drop conductivity probe into soil
-            /*
-            takeConductivity();     //take conductivity
-            if (conductivity == 0)   //make sure conductivity was taken
-            {
-                takeConductivity();
-            }
-            if (conductivity >= yesWater) {
-                deployBeacon();
-                //check that beacon was deployed
-            }
-            raiseArm();         //raise conductivity probe
-            //check that the probe has been raised
-*/
-            output(); //if needed, rn it'll just display to screen
-            robot.close();
+        if (conductivity >= yesWater) {
+            deployBeacon();
+            //check that beacon was deployed
         }
-        else robot.close();
+        raiseArm();         //raise conductivity probe
+
+        output();
+        robot.close();
+
     }
 
-    private static void move(int distance)
+    private static void move(double distance)
     {
-        //boolean reverse  = false;
+        //int time = (int)distance*1000;
+        int ticks = (int)distance*feetToTicks;
+
+        //robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+        //int moved = 0;
+
         int speederL;
         int speederR;
-        //int speeder = 0;
+
 
         if(distance < 0)
         {
             //reverse = true;
             speederL = -speedL;
             speederR = -speedR;
-            //speeder = -speed;
         }
         else
         {
             speederL = speedL;
             speederR = speedR;
-            //speeder = speed;
         }
 
-        int ticks = distance*feetToTicks;
-        int time = distance*feetToTime;
-        int moved = 0;
-        int space;
-
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-
-        //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-        robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
-
-        while(moved != ticks)
-        {
-            space = senseDistance(pingFrontPin);
-
-            if(space <= 10)
-            {
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                System.out.println("idling");
-            }
-
-            if(space > 10)
-            {
-                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
-                robot.runMotor(RXTXRobot.MOTOR1, speederL, RXTXRobot.MOTOR2, -speederR, time);
-            }
-
-            moved = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
-        }
-
+        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, time);
     }
 
     private static void turn(int direction)
@@ -232,23 +200,23 @@ public class Sprint_3 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, 2000);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1400);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, 2000);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1400);
         }
     }
 
     private static void raiseBoom()
     {
-        robot.moveServo(RXTXRobot.SERVO2, 180);
+        robot.runMotor(RXTXRobot.MOTOR3,100,15000);
     }
 
     private static void lowerBoom()
     {
-        robot.moveServo(RXTXRobot.SERVO2, 0);
+        robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
     }
 
     private static void lowerArm()
@@ -258,19 +226,18 @@ public class Sprint_3 {
 
     private static void raiseArm()
     {
-        robot.moveServo(RXTXRobot.SERVO3, 0);
+        robot.moveServo(RXTXRobot.SERVO3, 10);
     }
 
     private static void deployBeacon()
     {
         robot.moveServo(RXTXRobot.SERVO1, 145);
-        //add a bit of buffer here
-        //robot.moveServo(RXTXRobot.SERVO1, 0);
     }
 
     private static void takeConductivity()
     {
         conductivity = robot.getConductivity();
+        System.out.println("The SOIL CONDUCTIVITY is: " + conductivity);
     }
 
     private static void runTillBump()
@@ -300,7 +267,7 @@ public class Sprint_3 {
         }
     }
 
-    private static void moveTillSense()
+    private static void moveTillSense(int space)
     {
         boolean tooClose = false;
         int distance;
@@ -313,10 +280,11 @@ public class Sprint_3 {
         {
             distance = senseDistance(pingFrontPin);
 
-            if(distance <= 10)
+            if(distance <= space)
             {
                 tooClose = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("barrier reached");
             }
         }
     }
@@ -325,19 +293,8 @@ public class Sprint_3 {
     {
         boolean gap = false;
         int distance;
-        //int pin = 0;
-        
-/* this is done based on wiring now
-        if(direction == 1) //left
-        {
-            //pin = pingLeftPin;
-        }
-        else if(direction == 2) //right
-        {
-            pin = pingRightPin;
-        }
-*/
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+        //robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 0);
 
@@ -363,12 +320,6 @@ public class Sprint_3 {
     private static void takeTemp()
     {
         double thermistorReading = getThermistorReading();
-
-        //System.out.println("The probe read the value: " + thermistorReading);
-        //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
-
-        temp = 0;
-
         temp = (thermistorReading - tempIntercept)/tempSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
@@ -389,19 +340,12 @@ public class Sprint_3 {
         return sum / readingCount;
     }
 
-//UNCALIBRATED
     private static void getWindSpeed()
     {
         double anemometerReading = getAnemometerReading();
         double thermistorReading = getThermistorReading();
 
         windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
-        
-        System.out.println("The shielded thermistor read the value: " + anemometerReading);
-        //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
-
-        System.out.println("The exposed thermistor read the value: " + thermistorReading);
-        //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
 
         System.out.println("The wind speed is: " + windSpeed + "m/s");
 
@@ -425,6 +369,7 @@ public class Sprint_3 {
 //UNSURE IF THIS IS SOMETHING WE NEED BUT HERE IT IS. IF WE HAVE TO OUTPUT TO A FILE, WE CAN SET THAT UP LATER, I GUESS
     private static void output()
     {
+        System.out.println("SENSORS READ:");
         System.out.println("The TEMPERATURE is: " + temp + " celsius");
         System.out.println("The WIND SPEED is: " + temp + "Whatever the wind units are");
         System.out.println("The soil CONDUCTIVITY is: " + conductivity);
