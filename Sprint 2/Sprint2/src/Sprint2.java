@@ -27,12 +27,12 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        pingPin = 7;    //digital pin
+        pingPin = 11;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
-        armPin = 10;     //digital
+        armPin = 8;     //digital
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
@@ -50,7 +50,7 @@ public class Sprint2 {
         robot.attachServo(RXTXRobot.SERVO1, armPin);
         robot.attachServo(RXTXRobot.SERVO3,2);
 
-        robot.moveServo(RXTXRobot.SERVO1, 90);
+        //robot.moveServo(RXTXRobot.SERVO1, 90);
 
             //set up scanner and input
         Scanner input = new Scanner(System.in);
@@ -128,7 +128,7 @@ public class Sprint2 {
         boolean tooClose = false;
         int distance;
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-        robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, 500, 500);
+        robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, 250, 250);
 
         /*
         while (!tooClose) {
@@ -183,14 +183,14 @@ public class Sprint2 {
         angle = input.nextInt();
 
             //move servo
-        robot.moveServo(RXTXRobot.SERVO3, angle);
+        robot.moveServo(RXTXRobot.SERVO1,angle);
 
         angle = input.nextInt();
         //angle = 0;
 
 
             //reset servo
-        robot.moveServo(RXTXRobot.SERVO3, angle);
+        robot.moveServo(RXTXRobot.SERVO1,angle);
     }
     public static void raiseBoom()
     {
