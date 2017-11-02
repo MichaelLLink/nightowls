@@ -32,11 +32,11 @@ public class Sprint2 {
         tempPin = 0;    //analog
         windPin= 1;  //analog
         //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
-        armPin = 8;     //digital
+        armPin = 4;     //digital
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
-        robot.attachMotor(RXTXRobot.MOTOR3,4);
+        //robot.attachMotor(RXTXRobot.MOTOR3,4);
 
             //calibrations
         tempSlope = -6.3901;
@@ -48,7 +48,6 @@ public class Sprint2 {
 
             //set up motors and sensors
         robot.attachServo(RXTXRobot.SERVO1, armPin);
-        robot.attachServo(RXTXRobot.SERVO3,2);
 
         //robot.moveServo(RXTXRobot.SERVO1, 90);
 
@@ -125,6 +124,27 @@ public class Sprint2 {
 
     public static void move()
     {
+
+        boolean tooClose = false;
+        int distance;
+
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+
+        while (!tooClose)
+        {
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingPin);
+
+            if(distance <= 30)
+            {
+                tooClose = true;
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("barrier reached");
+            }
+        }
+        /*
         boolean tooClose = false;
         int distance;
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
