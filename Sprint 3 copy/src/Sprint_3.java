@@ -15,11 +15,11 @@ public class Sprint_3 {
     private static int tempPin;
     private static int windPin;
     private static int armPin;
-    //private static int boomPin;
-    private static int boomDCPin;
+    private static int boomPin;
+    //private static int boomDCPin;
     private static int dumpPin;
 
-        //data
+    //data
     private static double windSpeed;
     private static double temp;
     private static float conductivity;
@@ -33,31 +33,31 @@ public class Sprint_3 {
     private static int feetToTime;
 
     public static void main(String[] args) {
-            //set up robot
+        //set up robot
         robot = new ArduinoUno();
         robot.setPort("/dev/tty.usbmodem1411"); //make sure to update port before running
         robot.connect();
 
-            //set pin and other static variables
+        //set pin and other static variables
         pingFrontPin = 7;      //digital pin
         pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
-        //boomPin = 9;   //digital
-        boomDCPin = 4; //digital
+        boomPin = 4;   //digital
+        //boomDCPin = 4; //digital
         dumpPin = 8;   //digital
         armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
-        speedL = 200;
+        speedL = 250;
         speedR = 250;
         int fast = 500;
-        int slowL = 200;
+        int slowL = 250;
         int slowR = 250;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
-            //calibrations
+        //calibrations
         tempSlope = -13.664;
         tempIntercept = 991.71;
         windSlope = 5.2013;
@@ -67,14 +67,15 @@ public class Sprint_3 {
 
 
 
-            //set up motors and sensors
+        //set up motors and sensors
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
-        robot.attachMotor(RXTXRobot.MOTOR3, boomDCPin);
+        //robot.attachMotor(RXTXRobot.MOTOR3, boomDCPin);
         robot.attachServo(RXTXRobot.SERVO1, dumpPin);
         robot.attachServo(RXTXRobot.SERVO3,armPin);
+        robot.attachServo(RXTXRobot.SERVO2,boomPin);
 
-            //get starting position
+        //get starting position
         boolean trackPicked = false;
         Scanner input = new Scanner(System.in);
         int position;
@@ -101,59 +102,62 @@ public class Sprint_3 {
             }
         }
 
-            //run through the course
-        move(2);  //leave start
+        //run through the course
+        /*
+        move(1.5);  //leave start
         turn(left); //turn into track
-        moveTillSense(50);  //move till arbitrary barrier
+        moveTillSense(30);  //move till arbitrary barrier
         while(robot.getPing(pingFrontPin) <= 50)    //wait for barrier to be removed
         {
             robot.refreshDigitalPins();
             System.out.println("Barrier");
         }
+
         //move up ramp
         speedL = fast;
         speedR = fast;
-        move(2);
-        //raiseBoom();        //raise boom
-
+        move(2.8);
+        raiseBoom();        //raise boom
         takeTemp();         //take temp
         if(temp == 0)       //check that temp was actually taken
         {
             takeTemp();
         }
+        robot.sleep(10000);
         getWindSpeed();     //get wind speed
         if(windSpeed == 0)  //check that wind speed was taken
         {
             getWindSpeed();
         }
-
         output();
-        //lowerBoom();        //lower boom
+        lowerBoom();        //lower boom
         turn(right);    //turn into the track
+        */
         speedL = slowL;
         speedR = slowR;
-        move(1);          //move down ramp
+
+        move(2);          //move down ramp
         senseGap();             //move till there's a gap to whatever side we need
         turn(right);            //turn into gap
         move(3);    //move through gap
         turn(right);         //turn towards the back wall
         moveTillSense(100);     //move till we're close enough to back wall
         turn(left);     //turn towards bridge
-        moveTillSense(50);  //line up with bridge
+        moveTillSense(30);  //line up with bridge
         turn(left);     //turn in to bridge
 
-        /*
         speedL=fast;
         speedR=fast;
         move(2);           //go up ramp to bridge
         speedL=slowL;
         speedR=slowR;
         move(3);        //move across the bridge
-        move(1);        //go down ramp on other side of the bridge
+        move(0.2);        //go down ramp on other side of the bridge
+
         turn(left);             //turn towards soil
         runTillBump();          //run into the soil container
         lowerArm();             //drop conductivity probe into soil
-
+        lowerArm();
         takeConductivity();     //take conductivity
         if (conductivity == 0)   //make sure conductivity was taken
         {
@@ -164,7 +168,6 @@ public class Sprint_3 {
             //check that beacon was deployed
         }
         raiseArm();         //raise conductivity probe
-         */
 
         output();
         robot.close();
@@ -174,7 +177,7 @@ public class Sprint_3 {
     private static void move(double distance)
     {
         int time = (int)distance*1000;
-        //int ticks = (int)distance*feetToTicks;
+        int ticks = (int)distance*feetToTicks;
 
         //robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
@@ -215,27 +218,29 @@ public class Sprint_3 {
 
     private static void raiseBoom()
     {
-        robot.runMotor(RXTXRobot.MOTOR3,100,15000);
+        //robot.runMotor(RXTXRobot.MOTOR3,100,15000);
+        robot.moveServo(RXTXRobot.SERVO2, 110);
     }
 
     private static void lowerBoom()
     {
-        robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
+        //robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
+        robot.moveServo(RXTXRobot.SERVO2, 45);
     }
 
     private static void lowerArm()
     {
-        robot.moveServo(RXTXRobot.SERVO3, 90);
+        robot.moveServo(RXTXRobot.SERVO3, 20);
     }
 
     private static void raiseArm()
     {
-        robot.moveServo(RXTXRobot.SERVO3, 10);
+        robot.moveServo(RXTXRobot.SERVO3, 90);
     }
 
     private static void deployBeacon()
     {
-        robot.moveServo(RXTXRobot.SERVO1, 145);
+        robot.moveServo(RXTXRobot.SERVO1, 180);
     }
 
     private static void takeConductivity()
@@ -248,7 +253,7 @@ public class Sprint_3 {
     {
         boolean bumpTriggered = false;
 
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+        robot.runMotor(RXTXRobot.MOTOR1, speedR, RXTXRobot.MOTOR2, -speedL, 0);
 
         while (!bumpTriggered)
         {
@@ -282,6 +287,7 @@ public class Sprint_3 {
 
         while (!tooClose)
         {
+            robot.refreshDigitalPins();
             distance = robot.getPing(pingFrontPin);
 
             if(distance <= space)
@@ -306,7 +312,7 @@ public class Sprint_3 {
         {
             distance = senseDistance(pingSidePin);
 
-            if(distance <= 10)
+            if(distance <= 50)
             {
                 gap = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
@@ -370,7 +376,7 @@ public class Sprint_3 {
         return sum / readingCount;
     }
 
-//UNSURE IF THIS IS SOMETHING WE NEED BUT HERE IT IS. IF WE HAVE TO OUTPUT TO A FILE, WE CAN SET THAT UP LATER, I GUESS
+    //UNSURE IF THIS IS SOMETHING WE NEED BUT HERE IT IS. IF WE HAVE TO OUTPUT TO A FILE, WE CAN SET THAT UP LATER, I GUESS
     private static void output()
     {
         System.out.println("SENSORS READ:");
