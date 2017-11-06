@@ -36,7 +36,7 @@ public class Sprint2 {
 
         robot.attachMotor(RXTXRobot.MOTOR1,5);
         robot.attachMotor(RXTXRobot.MOTOR2,6);
-        //robot.attachMotor(RXTXRobot.MOTOR3,4);
+        robot.attachMotor(RXTXRobot.MOTOR3,4);
 
             //calibrations
         tempSlope = -6.3901;
@@ -47,7 +47,7 @@ public class Sprint2 {
         speed = 250;
 
             //set up motors and sensors
-        robot.attachServo(RXTXRobot.SERVO1, armPin);
+        robot.attachServo(RXTXRobot.SERVO1, 8);
 
         //robot.moveServo(RXTXRobot.SERVO1, 90);
 
@@ -92,6 +92,9 @@ public class Sprint2 {
                 case 7:
                     raiseBoom();
                     break;
+                case 8:
+                    getConductivity();
+                    break;
                 case 0:
                     break;
                 default:
@@ -119,6 +122,7 @@ public class Sprint2 {
         System.out.println("5 - Temperature Test");
         System.out.println("6 - Anemometer Test");
         System.out.println("7 - Boom DC Test");
+        System.out.println("8 - Conductivity Test");
         System.out.println("0 - Exit");
     }
 
@@ -219,14 +223,14 @@ public class Sprint2 {
         time = input.nextInt();
 
         //move servo
-        robot.runMotor(RXTXRobot.MOTOR3,100,time);
+        robot.runMotor(RXTXRobot.MOTOR3,250,time);
 
         time = input.nextInt();
         //angle = 0;
 
 
         //reset servo
-        robot.runMotor(RXTXRobot.MOTOR3,-100,time);
+        robot.runMotor(RXTXRobot.MOTOR3,-250,time);
     }
 
     public static void runTillBump()
@@ -321,12 +325,14 @@ public class Sprint2 {
         return sum / readingCount;
     }
 
-    /*
+
     public static void getConductivity()
     {
-
+        robot.moveServo(RXTXRobot.SERVO1, 20);
+        System.out.println(robot.getConductivity());
+        robot.moveServo(RXTXRobot.SERVO1, 90);
     }
-    */
+
     public static void getWindSpeed()
     {
         double anemometerReading = getAnemometerReading();
