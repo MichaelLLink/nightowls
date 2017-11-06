@@ -47,7 +47,7 @@ public class Sprint2 {
         speed = 250;
 
             //set up motors and sensors
-        robot.attachServo(RXTXRobot.SERVO1, 8);
+        robot.attachServo(RXTXRobot.SERVO1, 10);
 
         //robot.moveServo(RXTXRobot.SERVO1, 90);
 
@@ -329,7 +329,10 @@ public class Sprint2 {
     public static void getConductivity()
     {
         robot.moveServo(RXTXRobot.SERVO1, 20);
-        System.out.println(robot.getConductivity());
+        double conductivity = robot.getConductivity();
+        System.out.println("ADC code: " + conductivity);
+        conductivity = 100*(conductivity - 1030.9)/-2159.3;
+        System.out.println("Water content: " + conductivity + "%");
         robot.moveServo(RXTXRobot.SERVO1, 90);
     }
 
