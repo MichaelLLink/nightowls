@@ -70,10 +70,10 @@ public class Sprint_3 {
         //set up motors and sensors
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
         robot.attachMotor(RXTXRobot.MOTOR2, 6);
-        //robot.attachMotor(RXTXRobot.MOTOR3, boomDCPin);
+        robot.attachMotor(RXTXRobot.MOTOR3, 4);
         robot.attachServo(RXTXRobot.SERVO1, dumpPin);
         robot.attachServo(RXTXRobot.SERVO3,armPin);
-        robot.attachServo(RXTXRobot.SERVO2,boomPin);
+        //robot.attachServo(RXTXRobot.SERVO2,boomPin);
 
         //get starting position
         boolean trackPicked = false;
@@ -132,7 +132,7 @@ public class Sprint_3 {
         output();
         lowerBoom();        //lower boom
         turn(right);    //turn into the track
-        */
+
         speedL = slowL;
         speedR = slowR;
 
@@ -155,6 +155,10 @@ public class Sprint_3 {
         move(0.2);        //go down ramp on other side of the bridge
 
         turn(left);             //turn towards soil
+        */
+
+        speedL = slowL;
+        speedR = slowR;
         runTillBump();          //run into the soil container
         lowerArm();             //drop conductivity probe into soil
         lowerArm();
