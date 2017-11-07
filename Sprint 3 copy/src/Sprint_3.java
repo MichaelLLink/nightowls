@@ -15,8 +15,6 @@ public class Sprint_3 {
     private static int tempPin;
     private static int windPin;
     private static int armPin;
-    private static int boomPin;
-    //private static int boomDCPin;
     private static int dumpPin;
 
     //data
@@ -44,8 +42,6 @@ public class Sprint_3 {
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin = 1;  //analog
-        boomPin = 4;   //digital
-        //boomDCPin = 4; //digital
         dumpPin = 8;   //digital
         armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
@@ -73,7 +69,7 @@ public class Sprint_3 {
         robot.attachMotor(RXTXRobot.MOTOR3, 4);
         robot.attachServo(RXTXRobot.SERVO1, dumpPin);
         robot.attachServo(RXTXRobot.SERVO3,armPin);
-        //robot.attachServo(RXTXRobot.SERVO2,boomPin);
+        //robot.attachServo(RXTXRobot.SERVO2,4);
 
         //get starting position
         boolean trackPicked = false;
@@ -103,7 +99,7 @@ public class Sprint_3 {
         }
 
         //run through the course
-        /*
+
         move(1.5);  //leave start
         turn(left); //turn into track
         moveTillSense(30);  //move till arbitrary barrier
@@ -116,27 +112,31 @@ public class Sprint_3 {
         //move up ramp
         speedL = fast;
         speedR = fast;
+        robot.sleep(500);
         move(2.8);
-        raiseBoom();        //raise boom
-        takeTemp();         //take temp
+        //raiseBoom();        //raise boom
+        //takeTemp();         //take temp
         if(temp == 0)       //check that temp was actually taken
         {
-            takeTemp();
+            //takeTemp();
         }
         robot.sleep(10000);
-        getWindSpeed();     //get wind speed
+        //getWindSpeed();     //get wind speed
         if(windSpeed == 0)  //check that wind speed was taken
         {
-            getWindSpeed();
+            //getWindSpeed();
         }
         output();
-        lowerBoom();        //lower boom
+        //lowerBoom();        //lower boom
         turn(right);    //turn into the track
 
         speedL = slowL;
         speedR = slowR;
 
         move(2);          //move down ramp
+
+        robot.sleep(500);
+
         senseGap();             //move till there's a gap to whatever side we need
         turn(right);            //turn into gap
         move(3);    //move through gap
@@ -146,6 +146,7 @@ public class Sprint_3 {
         moveTillSense(30);  //line up with bridge
         turn(left);     //turn in to bridge
 
+        /*
         speedL=fast;
         speedR=fast;
         move(2);           //go up ramp to bridge
@@ -155,7 +156,7 @@ public class Sprint_3 {
         move(0.2);        //go down ramp on other side of the bridge
 
         turn(left);             //turn towards soil
-        */
+
 
         speedL = slowL;
         speedR = slowR;
@@ -165,14 +166,14 @@ public class Sprint_3 {
         takeConductivity();     //take conductivity
         if (conductivity == 0)   //make sure conductivity was taken
         {
-            takeConductivity();
+            getConductivity();
         }
         if (conductivity >= yesWater) {
             deployBeacon();
             //check that beacon was deployed
         }
         raiseArm();         //raise conductivity probe
-
+        */
         output();
         robot.close();
 
@@ -223,13 +224,13 @@ public class Sprint_3 {
     private static void raiseBoom()
     {
         //robot.runMotor(RXTXRobot.MOTOR3,100,15000);
-        robot.moveServo(RXTXRobot.SERVO2, 110);
+        //robot.moveServo(RXTXRobot.SERVO2, 110);
     }
 
     private static void lowerBoom()
     {
         //robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
-        robot.moveServo(RXTXRobot.SERVO2, 45);
+        //robot.moveServo(RXTXRobot.SERVO2, 45);
     }
 
     private static void lowerArm()
@@ -245,12 +246,6 @@ public class Sprint_3 {
     private static void deployBeacon()
     {
         robot.moveServo(RXTXRobot.SERVO1, 180);
-    }
-
-    private static void takeConductivity()
-    {
-        conductivity = robot.getConductivity();
-        System.out.println("The SOIL CONDUCTIVITY is: " + conductivity);
     }
 
     private static void runTillBump()
@@ -279,7 +274,28 @@ public class Sprint_3 {
 
         }
     }
+    private static void moveTillSense(int space)
+    {
+        boolean tooClose = false;
+        int distance;
 
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+
+        while (!tooClose)
+        {
+            distance = senseDistance(pingFrontPin);
+
+            if(distance <= space)
+            {
+                tooClose = true;
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("barrier reached");
+            }
+        }
+    }
+    /*
     private static void moveTillSense(int space)
     {
         boolean tooClose = false;
@@ -302,21 +318,22 @@ public class Sprint_3 {
             }
         }
     }
-
+*/
     private static void senseGap()
     {
         boolean gap = false;
         int distance;
 
-        //robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
         robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 0);
 
         while (!gap)
         {
-            distance = senseDistance(pingSidePin);
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingSidePin);
 
-            if(distance <= 50)
+            if(distance > 65)
             {
                 gap = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
@@ -363,6 +380,16 @@ public class Sprint_3 {
 
         System.out.println("The wind speed is: " + windSpeed + "m/s");
 
+    }
+
+    public static void getConductivity()
+    {
+        robot.moveServo(RXTXRobot.SERVO1, 20);
+        double conductivity = robot.getConductivity();
+        System.out.println("ADC code: " + conductivity);
+        conductivity = 100*(conductivity - 1030.9)/-2159.3;
+        System.out.println("Water content: " + conductivity + "%");
+        robot.moveServo(RXTXRobot.SERVO1, 90);
     }
 
     private static int getAnemometerReading()
