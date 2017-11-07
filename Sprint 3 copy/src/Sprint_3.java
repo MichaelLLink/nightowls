@@ -46,10 +46,10 @@ public class Sprint_3 {
         armPin = 10; //digital
         //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
 
-        speedL = 250;
+        speedL = 200;
         speedR = 250;
         int fast = 500;
-        int slowL = 250;
+        int slowL = 200;
         int slowR = 250;
         int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
 
@@ -102,18 +102,29 @@ public class Sprint_3 {
 
         move(1.5);  //leave start
         turn(left); //turn into track
-        moveTillSense(30);  //move till arbitrary barrier
-        while(robot.getPing(pingFrontPin) <= 50)    //wait for barrier to be removed
+        robot.sleep(100);
+        robot.refreshDigitalPins();
+        moveTillSense(20);  //move till arbitrary barrier
+
+        int barrier;
+        robot.refreshDigitalPins();
+        barrier = robot.getPing(pingFrontPin);
+        System.out.println(barrier);
+        /*
+        while(barrier <= 20)    //wait for barrier to be removed
         {
             robot.refreshDigitalPins();
+            barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier");
         }
-
+        robot.sleep(1000);
         //move up ramp
         speedL = fast;
         speedR = fast;
         robot.sleep(500);
-        move(2.8);
+        move(3);
+        //move(3);
+
         //raiseBoom();        //raise boom
         //takeTemp();         //take temp
         if(temp == 0)       //check that temp was actually taken
@@ -212,12 +223,12 @@ public class Sprint_3 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1700);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1300);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1700);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1300);
         }
     }
 
@@ -285,7 +296,10 @@ public class Sprint_3 {
 
         while (!tooClose)
         {
-            distance = senseDistance(pingFrontPin);
+            //distance = senseDistance(pingFrontPin);
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingFrontPin);
+            System.out.println(distance);
 
             if(distance <= space)
             {
