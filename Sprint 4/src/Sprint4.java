@@ -96,7 +96,7 @@ public class Sprint4 {
 
         //run through the course
         
-        move(1.8);  //leave start
+        move(2.0);  //leave start
         turn(left); //turn into track
         robot.sleep(1000);
         robot.refreshDigitalPins();
@@ -107,11 +107,19 @@ public class Sprint4 {
         robot.refreshDigitalPins();
         barrier = robot.getPing(pingFrontPin);
         System.out.println( "line 109 " + barrier);
+        barrier = robot.getPing(pingFrontPin);
+        System.out.println( "line 111 " + barrier);
+        barrier = robot.getPing(pingFrontPin);
+        System.out.println( "line 113 " + barrier);
         robot.sleep(1000);
 
          while(barrier <= 60)    //wait for barrier to be removed
          {
             robot.refreshDigitalPins();
+            barrier = robot.getPing(pingFrontPin);
+            System.out.println("Barrier" + barrier);
+            barrier = robot.getPing(pingFrontPin);
+            System.out.println("Barrier" + barrier);
             barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier" + barrier);
             robot.sleep(1000);
@@ -123,7 +131,7 @@ public class Sprint4 {
          speedL = fast;
          speedR = fast;
          robot.sleep(1000);
-         move(3.0);
+         move(2.8);
 
          //raiseBoom();        //raise boom
          //takeTemp();         //take temp
@@ -143,7 +151,7 @@ public class Sprint4 {
          
          senseGap();             //move till there's a gap to whatever side we need
          turn(right);            //turn into gap
-        /*
+/*
          move(3);    //move through gap
          turn(right);         //turn towards the back wall
          moveTillSense(100);     //move till we're close enough to back wall
@@ -210,12 +218,12 @@ public class Sprint4 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1600);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 2000);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1600);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1300);
         }
     }
     
@@ -283,7 +291,11 @@ public class Sprint4 {
         while (!tooClose) {
             robot.refreshDigitalPins();
             distance = robot.getPing(pingFrontPin);
-            System.out.println("move till sense too close distance: " + distance);
+            System.out.println("move till sense not too close distance: " + distance);
+            distance = robot.getPing(pingFrontPin);
+            System.out.println("move till sense not too close distance: " + distance);
+            distance = robot.getPing(pingFrontPin);
+            System.out.println("move till sense not too close distance: " + distance);
 
             if (distance <= space) {
                 tooClose = true;
