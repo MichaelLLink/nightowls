@@ -27,7 +27,7 @@ public class Sprint2 {
         robot.connect();
 
             //set pin and other static variables
-        pingPin = 11;    //digital pin
+        pingPin = 7;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
         windPin= 1;  //analog
@@ -291,9 +291,11 @@ public class Sprint2 {
     {
         robot.refreshDigitalPins();
         int distance = robot.getPing(pingPin); //remember to check pin
+        int distanceSide = robot.getPing(11);
 
             //read out distance
-        System.out.println("Distance: " + distance + "cm");
+        System.out.println("front Distance: " + distance + "cm");
+        System.out.println("side Distance: " + distanceSide + "cm");
     }
 
     public static void takeTemp()
