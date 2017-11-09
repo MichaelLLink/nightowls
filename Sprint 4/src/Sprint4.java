@@ -96,31 +96,35 @@ public class Sprint4 {
 
         //run through the course
         
-        move(1.5);  //leave start
+        move(1.8);  //leave start
         turn(left); //turn into track
         robot.sleep(1000);
         robot.refreshDigitalPins();
         moveTillSense(20);  //move till arbitrary barrier
+        //move(2);
         
         int barrier;
         robot.refreshDigitalPins();
         barrier = robot.getPing(pingFrontPin);
         System.out.println(barrier);
+        robot.sleep(1000);
 
-         while(barrier <= 25)    //wait for barrier to be removed
+         while(barrier <= 60)    //wait for barrier to be removed
          {
             robot.refreshDigitalPins();
             barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier" + barrier);
             robot.sleep(1000);
          }
-         /*
+
+        System.out.println("barrier gone" + barrier);
+
          //move up ramp
          speedL = fast;
          speedR = fast;
          robot.sleep(1000);
          move(3.0);
-         
+         /*
          //raiseBoom();        //raise boom
          //takeTemp();         //take temp
 
@@ -205,12 +209,12 @@ public class Sprint4 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1300);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1600);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1300);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1600);
         }
     }
     
