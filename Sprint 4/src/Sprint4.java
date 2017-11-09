@@ -106,7 +106,7 @@ public class Sprint4 {
         int barrier;
         robot.refreshDigitalPins();
         barrier = robot.getPing(pingFrontPin);
-        System.out.println(barrier);
+        System.out.println( "line 109 " + barrier);
         robot.sleep(1000);
 
          while(barrier <= 60)    //wait for barrier to be removed
@@ -117,14 +117,14 @@ public class Sprint4 {
             robot.sleep(1000);
          }
 
-        System.out.println("barrier gone" + barrier);
+        System.out.println("barrier gone " + barrier);
 
          //move up ramp
          speedL = fast;
          speedR = fast;
          robot.sleep(1000);
          move(3.0);
-         /*
+
          //raiseBoom();        //raise boom
          //takeTemp();         //take temp
 
@@ -143,6 +143,7 @@ public class Sprint4 {
          
          senseGap();             //move till there's a gap to whatever side we need
          turn(right);            //turn into gap
+        /*
          move(3);    //move through gap
          turn(right);         //turn towards the back wall
          moveTillSense(100);     //move till we're close enough to back wall
@@ -282,12 +283,12 @@ public class Sprint4 {
         while (!tooClose) {
             robot.refreshDigitalPins();
             distance = robot.getPing(pingFrontPin);
-            System.out.println(distance);
+            System.out.println("move till sense too close distance: " + distance);
 
             if (distance <= space) {
                 tooClose = true;
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                System.out.println("barrier reached");
+                System.out.println("barrier reached " + distance);
             }
         }
     }
