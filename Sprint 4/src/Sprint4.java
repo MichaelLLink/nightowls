@@ -144,8 +144,8 @@ public class Sprint4 {
 
          //lowerBoom();        //lower boom
          turn(right);    //turn into the track
-          */
 
+*/
         speedL = 300;
         speedR = slowR;
 
@@ -158,9 +158,11 @@ public class Sprint4 {
         speedR = slowR;
 
         senseGap();             //move till there's a gap to whatever side we need
+
          turn(right);            //turn into gap
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
+///*
          move(2);    //move through gap
          turn(right);         //turn towards the back wall
 
@@ -240,7 +242,7 @@ public class Sprint4 {
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1750);
         }
     }
     
