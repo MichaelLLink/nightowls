@@ -144,19 +144,23 @@ public class Sprint4 {
 
          //lowerBoom();        //lower boom
          turn(right);    //turn into the track
-         
-         speedL = slowL;
-         speedR = slowR;
+          */
 
+        speedL = 300;
+        speedR = slowR;
 
-         move(1);          //move down ramp
+        move(1.8);          //move down ramp
+        //robot.runMotor(RXTXRobot.MOTOR1,150,RXTXRobot.MOTOR2,-150,2500);
          
          robot.sleep(1000);
-         
-         senseGap();             //move till there's a gap to whatever side we need
-         turn(right);            //turn into gap
 
-*/
+        speedL = slowL;
+        speedR = slowR;
+
+        senseGap();             //move till there's a gap to whatever side we need
+         turn(right);            //turn into gap
+        //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
+
          move(2);    //move through gap
          turn(right);         //turn towards the back wall
 
@@ -167,7 +171,8 @@ public class Sprint4 {
          moveTillSense(40);  //line up with bridge
 
          //turn(left);     //turn in to bridge
-         robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1900);
+         robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1630);
+
 
 
          speedL=fast;
@@ -179,7 +184,8 @@ public class Sprint4 {
          //move(0.2);        //go down ramp on other side of the bridge
         robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,500);
          
-         turn(left);             //turn towards soil
+         //turn(left);             //turn towards soil
+        robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1650);
          
          
          speedL = slowL;
@@ -229,12 +235,12 @@ public class Sprint4 {
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1680);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1610);
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1450);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
         }
     }
     
@@ -331,7 +337,7 @@ public class Sprint4 {
             robot.refreshDigitalPins();
             distance = robot.getPing(pingSidePin);
 
-            robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 150);
+            robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 100);
             
             if(distance > 65)
             {
