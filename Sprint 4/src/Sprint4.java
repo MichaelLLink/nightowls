@@ -94,11 +94,14 @@ public class Sprint4 {
             }
         }
 
+        //robot.runMotor(RXTXRobot.MOTOR3, 100, 2000);  //partially raise boom
+
         //run through the course
         
         //leave start
         /*
         robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,1900);
+        //moveTillSense(10);
         turn(left); //turn into track
         robot.sleep(1000);
         robot.refreshDigitalPins();
