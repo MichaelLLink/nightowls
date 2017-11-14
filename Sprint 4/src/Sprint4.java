@@ -94,8 +94,8 @@ public class Sprint4 {
             }
         }
 
-        robot.runMotor(RXTXRobot.MOTOR3, 100, 4000);  //partially raise boom
-        robot.sleep(2000);
+        //robot.runMotor(RXTXRobot.MOTOR3, 100, 4500);  //partially raise boom
+        //robot.sleep(2000);
 
         //run through the course
         
@@ -163,6 +163,7 @@ public class Sprint4 {
 
         senseGap();             //move till there's a gap to whatever side we need
 */
+        //move(1);
          turn(right);            //turn into gap
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
