@@ -71,7 +71,7 @@ public class Sprint2 {
             switch(iChoice)
             {
                 case 1:
-                    move();
+                    lowerBoom();
                     break;
                 case 2:
                     changeAngle();
@@ -115,13 +115,13 @@ public class Sprint2 {
     {
         System.out.println("\n**WELCOME TO NIGHTOWLS SPRINT 2 PRESENTATION**");
         System.out.println("Which test would you like to preform?");
-        System.out.println("1 - Move Test");
+        System.out.println("1 - Lower boom test");
         System.out.println("2 - Servo Test");
         System.out.println("3 - Bumper Test");
         System.out.println("4 - Ping Test");
         System.out.println("5 - Temperature Test");
         System.out.println("6 - Anemometer Test");
-        System.out.println("7 - Boom DC Test");
+        System.out.println("7 - Raise boom Test");
         System.out.println("8 - Conductivity Test");
         System.out.println("0 - Exit");
     }
@@ -226,6 +226,23 @@ public class Sprint2 {
         robot.runMotor(RXTXRobot.MOTOR3,250,time);
 
         time = input.nextInt();
+        //angle = 0;
+
+
+        //reset servo
+        //robot.runMotor(RXTXRobot.MOTOR3,-250,time);
+    }
+
+    public static void lowerBoom()
+    {
+        Scanner input = new Scanner(System.in);
+        int time = 0;
+        time = input.nextInt();
+
+        //move servo
+        //robot.runMotor(RXTXRobot.MOTOR3,250,time);
+
+        //time = input.nextInt();
         //angle = 0;
 
 
