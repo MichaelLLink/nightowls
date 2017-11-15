@@ -94,7 +94,7 @@ public class Sprint4 {
             }
         }
 
-        //robot.runMotor(RXTXRobot.MOTOR3, 100, 5000);  //partially raise boom
+        //robot.runMotor(RXTXRobot.MOTOR3, 100, 4000);  //partially raise boom
         //robot.sleep(2000);
 
         //run through the course
@@ -140,13 +140,13 @@ public class Sprint4 {
          move(3.1);
          robot.sleep(1000);
 
-         //raiseBoom();        //raise boom
-         //takeTemp();         //take temp
+         raiseBoom();        //raise boom
+         takeTemp();         //take temp
 
-         //robot.sleep(10000);
-         //getWindSpeed();     //get wind speed
+         robot.sleep(10000);
+         getWindSpeed();     //get wind speed
 
-         //lowerBoom();        //lower boom
+         lowerBoom();        //lower boom
 
 
 
@@ -157,7 +157,6 @@ public class Sprint4 {
         speedR = slowR;
 
         move(2);          //move down ramp
-        //robot.runMotor(RXTXRobot.MOTOR1,150,RXTXRobot.MOTOR2,-150,2500);
          
          robot.sleep(1000);
 
@@ -168,7 +167,6 @@ public class Sprint4 {
 
         //move(1);
         turn(left);            //turn into gap
-        //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
 
          moveTillSense(40);    //move through gap
@@ -329,14 +327,12 @@ public class Sprint4 {
     
     private static void raiseBoom()
     {
-        //robot.runMotor(RXTXRobot.MOTOR3,100,15000);
-        //robot.moveServo(RXTXRobot.SERVO2, 110);
+        robot.runMotor(RXTXRobot.MOTOR3,250,750);
     }
     
     private static void lowerBoom()
     {
-        //robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
-        //robot.moveServo(RXTXRobot.SERVO2, 45);
+        robot.runMotor(RXTXRobot.MOTOR3,-250,500);
     }
     
     private static void lowerArm()

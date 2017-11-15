@@ -309,13 +309,6 @@ public class Sprint_3 {
 
         //move servo
         robot.runMotor(RXTXRobot.MOTOR3,250,time);
-
-        time = input.nextInt();
-        //angle = 0;
-
-
-        //reset servo
-        //robot.runMotor(RXTXRobot.MOTOR3,-250,time);
     }
 
     public static void lowerBoom()
