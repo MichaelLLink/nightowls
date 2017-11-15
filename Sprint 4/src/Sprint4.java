@@ -100,10 +100,10 @@ public class Sprint4 {
         //run through the course
         
         //leave start
-        /*
-        robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,1900);
-        //moveTillSense(10);
-        turn(left); //turn into track
+
+        //robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,1900);
+        moveTillSense(40);
+        turn(right); //turn into track
         robot.sleep(1000);
         robot.refreshDigitalPins();
         moveTillSense(30);  //move till arbitrary barrier
@@ -147,7 +147,7 @@ public class Sprint4 {
          //getWindSpeed();     //get wind speed
 
          //lowerBoom();        //lower boom
-         turn(right);    //turn into the track
+         turn(left);    //turn into the track
 
 
         speedL = 300;
@@ -162,26 +162,26 @@ public class Sprint4 {
         speedR = slowR;
 
         senseGap();             //move till there's a gap to whatever side we need
-*/
+
         //move(1);
-        turn(right);            //turn into gap
+        turn(left);            //turn into gap
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
-/*
+
          move(2);    //move through gap
-         turn(right);         //turn towards the back wall
+         turn(left);         //turn towards the back wall
 
          moveTillSense(100);     //move till we're close enough to back wall
 
-         turn(left);     //turn towards bridge
+         turn(right);     //turn towards bridge
 
          moveTillSense(40);  //line up with bridge
 
-         turn(left);     //turn in to bridge
+         turn(right);     //turn in to bridge
          //robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1630);
 
 
-
+/*
          speedL=fast;
          speedR=fast;
          move(2);           //go up ramp to bridge
@@ -191,7 +191,7 @@ public class Sprint4 {
          //move(0.2);        //go down ramp on other side of the bridge
         robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,500);
          
-         turn(left);             //turn towards soil
+         turn(right);             //turn towards soil
         //robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1650);
          
          
@@ -295,10 +295,10 @@ public class Sprint4 {
         {
             while(!turned)
             {
-                if(ticks <= 40) {
+                if(ticks <= 50) {
                     robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, 500, 150);
                 }
-                if(ticks > 40 && ticks < 80)
+                if(ticks > 50 && ticks < 80)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, 500,RXTXRobot.MOTOR2, 500, 100);
                 }
