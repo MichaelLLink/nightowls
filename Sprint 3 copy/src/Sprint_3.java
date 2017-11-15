@@ -74,7 +74,7 @@ public class Sprint_3 {
                     lowerBoom();
                     break;
                 case 2:
-                    changeAngle();
+                    move();
                     break;
                 case 3:
                     runTillBump();
@@ -116,7 +116,7 @@ public class Sprint_3 {
         System.out.println("\n**WELCOME TO NIGHTOWLS SPRINT 2 PRESENTATION**");
         System.out.println("Which test would you like to preform?");
         System.out.println("1 - Lower boom test");
-        System.out.println("2 - Servo Test");
+        System.out.println("2 - Move Test");
         System.out.println("3 - Bumper Test");
         System.out.println("4 - Ping Test");
         System.out.println("5 - Temperature Test");
@@ -134,8 +134,8 @@ public class Sprint_3 {
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
-
+        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 1000);
+/*
         while (!tooClose)
         {
             robot.refreshDigitalPins();
@@ -148,7 +148,7 @@ public class Sprint_3 {
                 System.out.println("barrier reached");
             }
         }
-        /*
+
         boolean tooClose = false;
         int distance;
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
