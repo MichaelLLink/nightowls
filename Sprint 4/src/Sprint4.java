@@ -43,11 +43,11 @@ public class Sprint4 {
         armPin = 10;            //digital
 
         //motion
-        speedL = 250;
-        speedR = 250;
+        speedL = 200;
+        speedR = 300;
         int fast = 500;
-        int slowL = 250;
-        int slowR = 250;
+        int slowL = 200;
+        int slowR = 300;
 
         //motors and servos
         robot.attachMotor(RXTXRobot.MOTOR1, 5);
@@ -100,8 +100,7 @@ public class Sprint4 {
         //run through the course
         
         //leave start
-/*
-        //robot.runMotor(RXTXRobot.MOTOR1,speedL,RXTXRobot.MOTOR2,-speedR,1900);
+
         moveTillSense(40);
         turn(right); //turn into track
         robot.sleep(1000);
@@ -123,10 +122,10 @@ public class Sprint4 {
             robot.refreshDigitalPins();
             barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier" + barrier);
-            robot.refreshDigitalPins();
+             robot.refreshDigitalPins();
             barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier" + barrier);
-            robot.refreshDigitalPins();
+             robot.refreshDigitalPins();
             barrier = robot.getPing(pingFrontPin);
             System.out.println("Barrier" + barrier);
             robot.sleep(1000);
@@ -138,14 +137,14 @@ public class Sprint4 {
          speedL = fast;
          speedR = fast;
          robot.sleep(1000);
-         move(3.0);
+         move(3.1);
          robot.sleep(1000);
 
          //raiseBoom();        //raise boom
-         takeTemp();         //take temp
+         //takeTemp();         //take temp
 
          //robot.sleep(10000);
-         getWindSpeed();     //get wind speed
+         //getWindSpeed();     //get wind speed
 
          //lowerBoom();        //lower boom
 
@@ -153,7 +152,7 @@ public class Sprint4 {
 
          turn(left);    //turn into the track
 
-*/
+
         speedL = 300;
         speedR = slowR;
 
@@ -172,19 +171,20 @@ public class Sprint4 {
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
 
-         moveTillSense(60);    //move through gap
+         moveTillSense(40);    //move through gap
          turn(left);         //turn towards the back wall
 
-         moveTillSense(60);     //move till we're close enough to back wall
+         moveTillSense(30);     //move till we're close enough to back wall
 
          turn(right);     //turn towards bridge
 
          moveTillSense(20);  //line up with bridge
 
          turn(right);     //turn in to bridge
-         //robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1630);
+        move(2);
 
 
+/*
 
          speedL=fast;
          speedR=fast;
@@ -211,7 +211,7 @@ public class Sprint4 {
             deployBeacon();
          }
          raiseArm();         //raise conductivity probe
-
+*/
 
         System.out.println("End reached. Goodnight");
         robot.close();
@@ -274,14 +274,14 @@ public class Sprint4 {
             while(!turned)
             {
 
-                if(ticks >= -100) {
+                if(ticks >= -90) {
                     robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, -500, 150);
                 }
-                if(ticks < -100 && ticks > -130)
+                if(ticks < -90 && ticks > -105)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 100);
                 }
-                if(ticks <= -130)
+                if(ticks <= -105)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 60);
                 }
@@ -290,7 +290,7 @@ public class Sprint4 {
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks <= -130)
+                if(ticks <= -125)
                 {
                     turned = true;
                     System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -428,7 +428,7 @@ public class Sprint4 {
                 robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
             }
         }
-        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 500);
+        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 600);
     }
     
     private static int senseDistance(int pin)
