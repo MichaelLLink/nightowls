@@ -164,7 +164,7 @@ public class Sprint4 {
         senseGap();             //move till there's a gap to whatever side we need
 */
         //move(1);
-         turn(right);            //turn into gap
+        turn(right);            //turn into gap
         //robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1500);
 
 /*
@@ -241,38 +241,53 @@ public class Sprint4 {
     {
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR2);
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR2);
         System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
         System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
         boolean turned = false;
         int ticks = 0;
 
+/*
         if(direction == 1) //left
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 2500);
+            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1450);
             System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
             System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
         }
         else if(direction == 2) //right
         {
             //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 3000);
+            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1250);
             System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
             System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
         }
 
-        /*
+        */
         if(direction == 1) //left
         {
             while(!turned)
             {
-                robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 100);
+                if(ticks >= -40) {
+                    robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, -500, 150);
+                }
+                if(ticks < -40 && ticks > -90)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 100);
+                }
+                if(ticks <= -90)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 45);
+                }
 
-                ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR2);
+                ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks <= [perfect left turn])
+                if(ticks <= -170)
                 {
                     turned = true;
+                    System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+                    System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
                 }
             }
         }
@@ -280,17 +295,29 @@ public class Sprint4 {
         {
             while(!turned)
             {
-                robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 100);
+                if(ticks <= 40) {
+                    robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, 500, 150);
+                }
+                if(ticks > 40 && ticks < 80)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, 500,RXTXRobot.MOTOR2, 500, 100);
+                }
+                if(ticks >= 80)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, 500,RXTXRobot.MOTOR2, 500, 40);
+                }
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks >= 405)
+                if(ticks >= 245)
                 {
                     turned = true;
+                    System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+                    System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
                 }
             }
         }
-        */
+
     }
     
     private static void raiseBoom()

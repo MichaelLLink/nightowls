@@ -1,274 +1,286 @@
 import rxtxrobot.*;
-
 import java.util.Scanner;
-import java.lang.String;
+import java.util.Timer;
 
 public class Sprint_3 {
 
-    private static RXTXRobot robot;
-    private static int speedL;
-    private static int speedR;
-    private static int speed;
-    private static int pingFrontPin;
-    private static int pingSidePin;
-    private static int bumpPin;
-    private static int tempPin;
-    private static int windPin;
-    private static int armPin;
-    private static int dumpPin;
-
-    //data
-    private static double windSpeed;
-    private static double temp;
-    private static float conductivity;
+    public static RXTXRobot robot;
+    public static int speed;
+    public static int pingPin;
+    public static int bumpPin;
+    public static int tempPin;
+    public static int windPin;
+    //public static int conductivityPin;
+    public static int armPin;
 
     //calibrations
-    private static double tempSlope;
-    private static double tempIntercept;
-    private static double windSlope;
-    private static double windIntercept;
-    private static int feetToTicks;
-    private static int feetToTime;
+    public static double tempSlope;
+    public static double tempIntercept;
+    public static double windSlope;
+    public static double windIntercept;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         //set up robot
         robot = new ArduinoUno();
         robot.setPort("/dev/tty.usbmodem1411"); //make sure to update port before running
         robot.connect();
 
         //set pin and other static variables
-        pingFrontPin = 7;      //digital pin
-        pingSidePin = 11;    //digital pin (which side is based on wiring, for route 1, left, and route 2, right)
+        pingPin = 7;    //digital pin
         bumpPin = 3;   //analog pin
         tempPin = 0;    //analog
-        windPin = 1;  //analog
-        dumpPin = 8;   //digital
-        armPin = 10; //digital
-        //NOTE: conductivity pins //Digital: D12, D13     Analog: A4, A5
+        windPin= 1;  //analog
+        //conductivityPin = ;   //Digital: D12, D13     Analog: A4, A5
+        armPin = 4;     //digital
 
-        speedL = 200;
-        speedR = 250;
-        int fast = 500;
-        int slowL = 200;
-        int slowR = 250;
-        int yesWater = 0; //change this to whatever the conductivity needed to release the beacon is
+        robot.attachMotor(RXTXRobot.MOTOR1,5);
+        robot.attachMotor(RXTXRobot.MOTOR2,6);
+        robot.attachMotor(RXTXRobot.MOTOR3,4);
 
         //calibrations
-        tempSlope = -13.664;
-        tempIntercept = 991.71;
-        windSlope = 5.2013;
-        windIntercept = 40.023;
-        feetToTicks = 11;
-        feetToTime = 609;
+        tempSlope = -6.3901;
+        tempIntercept = 679.1;
+        windSlope = 7.0291;
+        windIntercept = 12.336;
 
-
+        speed = 250;
 
         //set up motors and sensors
-        robot.attachMotor(RXTXRobot.MOTOR1, 5);
-        robot.attachMotor(RXTXRobot.MOTOR2, 6);
-        robot.attachMotor(RXTXRobot.MOTOR3, 4);
-        robot.attachServo(RXTXRobot.SERVO1, dumpPin);
-        robot.attachServo(RXTXRobot.SERVO3,armPin);
-        //robot.attachServo(RXTXRobot.SERVO2,4);
+        robot.attachServo(RXTXRobot.SERVO1, 10);
 
-        //get starting position
-        boolean trackPicked = false;
+        //robot.moveServo(RXTXRobot.SERVO1, 90);
+
+        //set up scanner and input
         Scanner input = new Scanner(System.in);
-        int position;
-        int left = 0;
-        int right = 0;
-        System.out.println("What is your starting position? ");
-        position = input.nextInt();
-        while(!trackPicked)
+        int iChoice = 0;
+
+
+        do
         {
-            if (position == 1)
+            //reset choice for each loop
+            iChoice = 0;
+
+            //display menu
+            displayMenu();
+
+            //scan for input
+            iChoice = input.nextInt();
+
+            //begin switch loop for selections
+            switch(iChoice)
             {
-                left = 1;
-                right = 2;
-                trackPicked = true;
-            } else if (position == 2)
-            {
-                left = 2;
-                right = 1;
-                trackPicked = true;
-            } else {
-                System.out.println("Invalid position, pick again");
-                //take input
-                position = input.nextInt();
+                case 1:
+                    lowerBoom();
+                    break;
+                case 2:
+                    changeAngle();
+                    break;
+                case 3:
+                    runTillBump();
+                    break;
+                case 4:
+                    senseDistance();
+                    break;
+                case 5:
+                    takeTemp();
+                    break;
+                case 6:
+                    //getConductivity();
+                    getWindSpeed();
+                    break;
+                case 7:
+                    raiseBoom();
+                    break;
+                case 8:
+                    getConductivity();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Please select an *actual* test");
+                    break;
             }
-        }
 
-        //run through the course
+        }while(iChoice != 0);
 
-        move(1.5);  //leave start
-        turn(left); //turn into track
-        robot.sleep(100);
-        robot.refreshDigitalPins();
-        moveTillSense(20);  //move till arbitrary barrier
+        System.out.println("Thank you for your time!");
 
-        int barrier;
-        robot.refreshDigitalPins();
-        barrier = robot.getPing(pingFrontPin);
-        System.out.println(barrier);
-        /*
-        while(barrier <= 20)    //wait for barrier to be removed
-        {
-            robot.refreshDigitalPins();
-            barrier = robot.getPing(pingFrontPin);
-            System.out.println("Barrier");
-        }
-        robot.sleep(1000);
-        //move up ramp
-        speedL = fast;
-        speedR = fast;
-        robot.sleep(500);
-        move(3);
-        //move(3);
-
-        //raiseBoom();        //raise boom
-        //takeTemp();         //take temp
-        if(temp == 0)       //check that temp was actually taken
-        {
-            //takeTemp();
-        }
-        robot.sleep(10000);
-        //getWindSpeed();     //get wind speed
-        if(windSpeed == 0)  //check that wind speed was taken
-        {
-            //getWindSpeed();
-        }
-        output();
-        //lowerBoom();        //lower boom
-        turn(right);    //turn into the track
-
-        speedL = slowL;
-        speedR = slowR;
-
-        move(2);          //move down ramp
-
-        robot.sleep(500);
-
-        senseGap();             //move till there's a gap to whatever side we need
-        turn(right);            //turn into gap
-        move(3);    //move through gap
-        turn(right);         //turn towards the back wall
-        moveTillSense(100);     //move till we're close enough to back wall
-        turn(left);     //turn towards bridge
-        moveTillSense(30);  //line up with bridge
-        turn(left);     //turn in to bridge
-
-        /*
-        speedL=fast;
-        speedR=fast;
-        move(2);           //go up ramp to bridge
-        speedL=slowL;
-        speedR=slowR;
-        move(3);        //move across the bridge
-        move(0.2);        //go down ramp on other side of the bridge
-
-        turn(left);             //turn towards soil
-
-
-        speedL = slowL;
-        speedR = slowR;
-        runTillBump();          //run into the soil container
-        lowerArm();             //drop conductivity probe into soil
-        lowerArm();
-        takeConductivity();     //take conductivity
-        if (conductivity == 0)   //make sure conductivity was taken
-        {
-            getConductivity();
-        }
-        if (conductivity >= yesWater) {
-            deployBeacon();
-            //check that beacon was deployed
-        }
-        raiseArm();         //raise conductivity probe
-        */
-        output();
+        //close robot
         robot.close();
 
     }
 
-    private static void move(double distance)
+    public static void displayMenu()
     {
-        int time = (int)distance*1000;
-        int ticks = (int)distance*feetToTicks;
+        System.out.println("\n**WELCOME TO NIGHTOWLS SPRINT 2 PRESENTATION**");
+        System.out.println("Which test would you like to preform?");
+        System.out.println("1 - Lower boom test");
+        System.out.println("2 - Servo Test");
+        System.out.println("3 - Bumper Test");
+        System.out.println("4 - Ping Test");
+        System.out.println("5 - Temperature Test");
+        System.out.println("6 - Anemometer Test");
+        System.out.println("7 - Raise boom Test");
+        System.out.println("8 - Conductivity Test");
+        System.out.println("0 - Exit");
+    }
 
-        //robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+    public static void move()
+    {
 
-        //int moved = 0;
+        boolean tooClose = false;
+        int distance;
 
-        int speederL;
-        int speederR;
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
+        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
 
-        if(distance < 0)
+        while (!tooClose)
         {
-            //reverse = true;
-            speederL = -speedL;
-            speederR = -speedR;
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingPin);
+
+            if(distance <= 30)
+            {
+                tooClose = true;
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("barrier reached");
+            }
         }
-        else
+        /*
+        boolean tooClose = false;
+        int distance;
+        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
+        robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, 250, 250);
+        /*
+        while (!tooClose) {
+            robot.refreshDigitalPins();
+            distance = robot.getPing(pingPin); //remember to check pin
+            if (distance > 50) {
+                tooClose = true;
+                //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 500);
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 900);
+            }
+        }
+        /*
+        //distance in inches
+        int distance = 3;
+        //set ticks (11 being our ticks-per-inches ratio)
+        int ticks = 110 * distance;
+        //move 3 feet
+        //robot.runEncodedMotor(RXTXRobot.MOTOR2, -speed, ticks, RXTXRobot.MOTOR1, speed, ticks);
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+        Scanner input = new Scanner(System.in);;
+        int in = 1;
+        //robot.runMotor(RXTXRobot.MOTOR2, 500, RXTXRobot.MOTOR1, -150, 8000);
+        //robot.runMotor(RXTXRobot.MOTOR1, 150, RXTXRobot.MOTOR2, 500, 2000); //turn test
+        robot.runMotor(RXTXRobot.MOTOR2, 500, 8000);
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+        System.out.println(robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+        /*
+        while(in != 0)
         {
-            speederL = speedL;
-            speederR = speedR;
+            in = input.nextInt();
+            if(in == 0)
+            {
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+            }
         }
+        */
+        //robot.runEncodedMotor();
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 5000);
 
-        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, time);
     }
 
-    private static void turn(int direction)
+    public static void changeAngle()
     {
-        if(direction == 1) //left
-        {
-            //robot.runEncodedMotor(RXTXRobot.MOTOR1, -speed, RXTXRobot.MOTOR2, -speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 10, RXTXRobot.MOTOR2, -500, 1300);
-        }
-        else if(direction == 2) //right
-        {
-            //robot.runEncodedMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, speed, [man idk]);
-            robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -10, 1300);
-        }
-    }
+        Scanner input = new Scanner(System.in);
+        int angle = 0;
+        angle = input.nextInt();
 
-    private static void raiseBoom()
+        //move servo
+        robot.moveServo(RXTXRobot.SERVO1,angle);
+
+        angle = input.nextInt();
+        //angle = 0;
+
+
+        //reset servo
+        robot.moveServo(RXTXRobot.SERVO1,angle);
+    }
+    public static void raiseBoom()
     {
-        //robot.runMotor(RXTXRobot.MOTOR3,100,15000);
-        //robot.moveServo(RXTXRobot.SERVO2, 110);
+        Scanner input = new Scanner(System.in);
+        int time = 0;
+        time = input.nextInt();
+
+        //move servo
+        robot.runMotor(RXTXRobot.MOTOR3,250,time);
+
+        time = input.nextInt();
+        //angle = 0;
+
+
+        //reset servo
+        //robot.runMotor(RXTXRobot.MOTOR3,-250,time);
     }
 
-    private static void lowerBoom()
+    public static void lowerBoom()
     {
-        //robot.runMotor(RXTXRobot.MOTOR3,-100,3000);
-        //robot.moveServo(RXTXRobot.SERVO2, 45);
+        Scanner input = new Scanner(System.in);
+        int time = 0;
+        time = input.nextInt();
+
+        //move servo
+        //robot.runMotor(RXTXRobot.MOTOR3,250,time);
+
+        //time = input.nextInt();
+        //angle = 0;
+
+
+        //reset servo
+        robot.runMotor(RXTXRobot.MOTOR3,-250,time);
     }
 
-    private static void lowerArm()
-    {
-        robot.moveServo(RXTXRobot.SERVO3, 20);
-    }
-
-    private static void raiseArm()
-    {
-        robot.moveServo(RXTXRobot.SERVO3, 90);
-    }
-
-    private static void deployBeacon()
-    {
-        robot.moveServo(RXTXRobot.SERVO1, 180);
-    }
-
-    private static void runTillBump()
+    public static void runTillBump()
     {
         boolean bumpTriggered = false;
+        boolean ideling = false;
 
-        robot.runMotor(RXTXRobot.MOTOR1, speedR, RXTXRobot.MOTOR2, -speedL, 0);
+        //robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
 
         while (!bumpTriggered)
         {
             robot.refreshAnalogPins();
-            int reading = robot.getAnalogPin(bumpPin).getValue();
+            int reading = robot.getAnalogPin(bumpPin).getValue(); //IDK what value signifies not pushed
+
+            robot.refreshDigitalPins();
+            int space = robot.getPing(pingPin); //remember to check pin
+            senseDistance();
+
+            if(space <= 20)
+            {
+                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
+                System.out.println("idling");
+                senseDistance();
+                ideling = true;
+            }
+
+            if(!ideling)
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+
+            robot.refreshDigitalPins();
+            space = robot.getPing(pingPin); //remember to check pin
+
+            if(space > 20 && ideling == true)
+            {
+                //robot.runEncodedMotor(RXTXRobot.MOTOR1, speeder, ticks, RXTXRobot.MOTOR2, -speeder, ticks);
+                robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
+                senseDistance();
+                ideling = false;
+            }
 
             //add if statement to set bumpTriggered based on reading
             if(reading == 0) {
@@ -285,92 +297,33 @@ public class Sprint_3 {
 
         }
     }
-    private static void moveTillSense(int space)
-    {
-        boolean tooClose = false;
-        int distance;
 
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
-
-        while (!tooClose)
-        {
-            //distance = senseDistance(pingFrontPin);
-            robot.refreshDigitalPins();
-            distance = robot.getPing(pingFrontPin);
-            System.out.println(distance);
-
-            if(distance <= space)
-            {
-                tooClose = true;
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                System.out.println("barrier reached");
-            }
-        }
-    }
-    /*
-    private static void moveTillSense(int space)
-    {
-        boolean tooClose = false;
-        int distance;
-
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-
-        robot.runMotor(RXTXRobot.MOTOR1, speed, RXTXRobot.MOTOR2, -speed, 0);
-
-        while (!tooClose)
-        {
-            robot.refreshDigitalPins();
-            distance = robot.getPing(pingFrontPin);
-
-            if(distance <= space)
-            {
-                tooClose = true;
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-                System.out.println("barrier reached");
-            }
-        }
-    }
-*/
-    private static void senseGap()
-    {
-        boolean gap = false;
-        int distance;
-
-        robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
-
-        robot.runMotor(RXTXRobot.MOTOR1, speedL, RXTXRobot.MOTOR2, -speedR, 0);
-
-        while (!gap)
-        {
-            robot.refreshDigitalPins();
-            distance = robot.getPing(pingSidePin);
-
-            if(distance > 65)
-            {
-                gap = true;
-                robot.runMotor(RXTXRobot.MOTOR1, 0, RXTXRobot.MOTOR2, 0, 0);
-            }
-        }
-    }
-
-    private static int senseDistance(int pin)
+    public static void senseDistance()
     {
         robot.refreshDigitalPins();
-        //int distance = robot.getPing(pin); //remember to check pin
-        return robot.getPing(pin);
+        int distance = robot.getPing(pingPin); //remember to check pin
+        int distanceSide = robot.getPing(11);
+
+        //read out distance
+        System.out.println("front Distance: " + distance + "cm");
+        System.out.println("side Distance: " + distanceSide + "cm");
     }
 
-    private static void takeTemp()
+    public static void takeTemp()
     {
         double thermistorReading = getThermistorReading();
+
+        System.out.println("The probe read the value: " + thermistorReading);
+        System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
+
+        double temp = 0;
+
         temp = (thermistorReading - tempIntercept)/tempSlope;
 
         System.out.println("The temperature is: " + temp + " celsius");
     }
 
-    private static int getThermistorReading()
+    public static int getThermistorReading()
     {
         int sum = 0;
         int readingCount = 10;
@@ -385,16 +338,6 @@ public class Sprint_3 {
         return sum / readingCount;
     }
 
-    private static void getWindSpeed()
-    {
-        double anemometerReading = getAnemometerReading();
-        double thermistorReading = getThermistorReading();
-
-        windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
-
-        System.out.println("The wind speed is: " + windSpeed + "m/s");
-
-    }
 
     public static void getConductivity()
     {
@@ -406,7 +349,25 @@ public class Sprint_3 {
         robot.moveServo(RXTXRobot.SERVO1, 90);
     }
 
-    private static int getAnemometerReading()
+    public static void getWindSpeed()
+    {
+        double anemometerReading = getAnemometerReading();
+        double thermistorReading = getThermistorReading();
+
+        double windSpeed = ((anemometerReading-thermistorReading)-windIntercept)/windSlope;
+
+        //not entirely sure what we need here
+        System.out.println("The shielded thermistor/temp read the value: " + thermistorReading);
+        //System.out.println("In volts: " + (anemometerReading * (5.0/1023.0)));
+
+        System.out.println("The exposed thermistor/wind read the value: " + anemometerReading);
+        //System.out.println("In volts: " + (thermistorReading * (5.0/1023.0)));
+
+        System.out.println("The wind speed is: " + windSpeed + "m/s");
+
+    }
+
+    public static int getAnemometerReading()
     {
         int sum = 0;
         int readingCount = 10;
@@ -419,15 +380,6 @@ public class Sprint_3 {
         }
 
         return sum / readingCount;
-    }
-
-    //UNSURE IF THIS IS SOMETHING WE NEED BUT HERE IT IS. IF WE HAVE TO OUTPUT TO A FILE, WE CAN SET THAT UP LATER, I GUESS
-    private static void output()
-    {
-        System.out.println("SENSORS READ:");
-        System.out.println("The TEMPERATURE is: " + temp + " celsius");
-        System.out.println("The WIND SPEED is: " + temp + "Whatever the wind units are");
-        System.out.println("The soil CONDUCTIVITY is: " + conductivity);
     }
 
 }
