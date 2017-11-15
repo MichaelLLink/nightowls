@@ -94,8 +94,8 @@ public class Sprint4 {
             }
         }
 
-        //robot.runMotor(RXTXRobot.MOTOR3, 100, 4000);  //partially raise boom
-        //robot.sleep(2000);
+        robot.runMotor(RXTXRobot.MOTOR3, 100, 4000);  //partially raise boom
+        robot.sleep(2000);
 
         //run through the course
         
