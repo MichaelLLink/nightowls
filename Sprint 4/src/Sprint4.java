@@ -352,7 +352,7 @@ public class Sprint4 {
         else if(direction == 2) //right
         {
             robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 1000);
-            
+
             while(!turned)
             {
                 if(ticks < 180)
