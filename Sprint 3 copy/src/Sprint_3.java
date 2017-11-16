@@ -1,6 +1,5 @@
 import rxtxrobot.*;
 import java.util.Scanner;
-import java.util.Timer;
 
 public class Sprint_3 {
 
@@ -10,7 +9,6 @@ public class Sprint_3 {
     public static int bumpPin;
     public static int tempPin;
     public static int windPin;
-    //public static int conductivityPin;
     public static int armPin;
 
     //calibrations
@@ -234,18 +232,16 @@ public class Sprint_3 {
             {
 
                 if(ticks >= -90) {
-                    robot.runMotor(RXTXRobot.MOTOR1, -500, RXTXRobot.MOTOR2, -500, 150);
+                    robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 150);
                 }
                 if(ticks < -90 && ticks > -105)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 100);
+                    robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 100);
                 }
                 if(ticks <= -105)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 60);
+                    robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 60);
                 }
-
-                //robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 60);
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
@@ -262,15 +258,15 @@ public class Sprint_3 {
             while(!turned)
             {
                 if(ticks <= 80) {
-                    robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, 500, 150);
+                    robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 150);
                 }
-                if(ticks > 80 && ticks < 110)
+                if(ticks > 80 && ticks < 150)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, 500,RXTXRobot.MOTOR2, 500, 100);
+                    robot.runMotor(RXTXRobot.MOTOR1, 350,RXTXRobot.MOTOR2, 350, 100);
                 }
-                if(ticks >= 110)
+                if(ticks >= 150)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, 500,RXTXRobot.MOTOR2, 500, 40);
+                    robot.runMotor(RXTXRobot.MOTOR1, 350,RXTXRobot.MOTOR2, 350, 40);
                 }
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
