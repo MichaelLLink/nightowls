@@ -136,7 +136,7 @@ public class Sprint_3 {
 
         robot.resetEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-        robot.runMotor(RXTXRobot.MOTOR1, 200, RXTXRobot.MOTOR2, -300, 2000);
+        robot.runMotor(RXTXRobot.MOTOR1, 500, RXTXRobot.MOTOR2, -500, 6000);
 /*
         while (!tooClose)
         {
@@ -226,26 +226,29 @@ public class Sprint_3 {
         }
 
         */
+
         if(direction == 1) //left
         {
             while(!turned)
             {
 
-                if(ticks >= -90) {
+                if(ticks >= -130) {
                     robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 150);
                 }
-                if(ticks < -90 && ticks > -105)
+                if(ticks < -130 && ticks > -170)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 100);
                 }
-                if(ticks <= -105)
+                if(ticks <= -170)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 60);
                 }
 
+                //robot.runMotor(RXTXRobot.MOTOR1, -500,RXTXRobot.MOTOR2, -500, 60);
+
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks <= -125)
+                if(ticks <= -180)
                 {
                     turned = true;
                     System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -257,21 +260,21 @@ public class Sprint_3 {
         {
             while(!turned)
             {
-                if(ticks <= 80) {
+                if(ticks <= 110) {
                     robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 150);
                 }
-                if(ticks > 80 && ticks < 150)
+                if(ticks > 110 && ticks < 160)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, 350,RXTXRobot.MOTOR2, 350, 100);
                 }
-                if(ticks >= 150)
+                if(ticks >= 160)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, 350,RXTXRobot.MOTOR2, 350, 40);
                 }
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks >= 170)
+                if(ticks >= 180)
                 {
                     turned = true;
                     System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -279,6 +282,60 @@ public class Sprint_3 {
                 }
             }
         }
+
+/*
+        if(direction == 1) //left
+        {
+            robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 1000);
+
+            while(!turned)
+            {
+
+                if(ticks > -150)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 500);
+                }
+                if(ticks < -160)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 500);
+                }
+
+                ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+                if(ticks <= -150 && ticks >= -160)
+                {
+                    turned = true;
+                    System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+                    System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+                }
+            }
+        }
+        else if(direction == 2) //right
+        {
+            robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 1000);
+
+            while(!turned)
+            {
+                if(ticks < 160)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 150);
+                }
+                if(ticks > 170)
+                {
+                    robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 150);
+                }
+
+                ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
+
+                if(ticks >= 160 && ticks <= 170)
+                {
+                    turned = true;
+                    System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
+                    System.out.println("Motor 2: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR2));
+                }
+            }
+        }
+        */
 
     }
     public static void changeAngle()

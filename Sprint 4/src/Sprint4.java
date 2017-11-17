@@ -43,10 +43,10 @@ public class Sprint4 {
         armPin = 10;            //digital
 
         //motion
-        speedL = 200;
+        speedL = 350;
         speedR = 300;
         int fast = 500;
-        int slowL = 200;
+        int slowL = 350;
         int slowR = 300;
 
         //motors and servos
@@ -138,7 +138,7 @@ public class Sprint4 {
          speedL = fast;
          speedR = fast;
          robot.sleep(1000);
-         move(3.1);
+         move(6);
          robot.sleep(1000);
 
          //raiseBoom();        //raise boom
@@ -265,20 +265,20 @@ public class Sprint4 {
         }
 
         */
-/*
+
         if(direction == 1) //left
         {
             while(!turned)
             {
 
-                if(ticks >= -100) {
+                if(ticks >= -130) {
                     robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 150);
                 }
-                if(ticks < -100 && ticks > -130)
+                if(ticks < -130 && ticks > -170)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 100);
                 }
-                if(ticks <= -130)
+                if(ticks <= -170)
                 {
                     robot.runMotor(RXTXRobot.MOTOR1, -350,RXTXRobot.MOTOR2, -350, 60);
                 }
@@ -287,7 +287,7 @@ public class Sprint4 {
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks <= -150)
+                if(ticks <= -180)
                 {
                     turned = true;
                     System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -321,8 +321,8 @@ public class Sprint4 {
                 }
             }
         }
-        */
 
+/*
         if(direction == 1) //left
         {
             robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 1000);
@@ -355,18 +355,18 @@ public class Sprint4 {
 
             while(!turned)
             {
-                if(ticks < 180)
+                if(ticks < 160)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 500);
+                    robot.runMotor(RXTXRobot.MOTOR1, 350, RXTXRobot.MOTOR2, 350, 150);
                 }
-                if(ticks > 190)
+                if(ticks > 170)
                 {
-                    robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 500);
+                    robot.runMotor(RXTXRobot.MOTOR1, -350, RXTXRobot.MOTOR2, -350, 150);
                 }
 
                 ticks = robot.getEncodedMotorPosition(RXTXRobot.MOTOR1);
 
-                if(ticks >= 180 && ticks <= 190)
+                if(ticks >= 160 && ticks <= 170)
                 {
                     turned = true;
                     System.out.println("Motor 1: " + robot.getEncodedMotorPosition(RXTXRobot.MOTOR1));
@@ -374,6 +374,8 @@ public class Sprint4 {
                 }
             }
         }
+        */
+
 
     }
     
